@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="uppercase">
+    <html lang="en" className="uppercase bg-body text-white">
       <body>
         {children}
       </body>
