@@ -5,7 +5,7 @@ import { ChildType } from "@/types/child-type";
 import { GlobalContextType } from "@/types/global-context-type";
 import createWagmiConfig from "@/utils/create-wagmi-config";
 import { createContext, useEffect, useState } from "react";
-import { Config } from "wagmi";
+import { Config } from "@wagmi/core";
 
 export const GlobalContext = createContext<GlobalContextType>({
     config: undefined
@@ -15,7 +15,7 @@ export default function GlobalProvider({ children }: ChildType) {
     const [config, setConfig] = useState<Config | undefined>(undefined)
 
     useEffect(function () {
-        loadProjectId()
+        if (!config) loadProjectId()
     }, [])
 
     async function loadProjectId() {

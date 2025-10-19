@@ -1,5 +1,5 @@
-import { Config, createConfig, http } from "wagmi";
-import { baseAccount, gemini, injected, metaMask, porto, safe, walletConnect } from "wagmi/connectors"
+import { type Config, createConfig, http } from "@wagmi/core";
+import { baseAccount, gemini, injected, metaMask, porto, safe, walletConnect } from "@wagmi/connectors"
 import { arbitrumSepolia, avalancheFuji, baseSepolia, bscTestnet, optimismSepolia, sepolia } from "wagmi/chains"
 
 export default function createWagmiConfig(projectId: string | undefined): Config {
@@ -23,7 +23,10 @@ export default function createWagmiConfig(projectId: string | undefined): Config
             injected(),
             metaMask(),
             porto(),
-            safe(),
+            safe({
+                allowedDomains: [/^app\.safe\.global$/],
+                debug: false,
+            }),
             walletConnect({
                 projectId
             })

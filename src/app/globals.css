@@ -21,3 +21,7 @@
   --font-klartext-thin: "KlartextMonoThin";
   --font-klartext-thin-italic: "KlartextMonoThinItalic";
 }
+
+* {
+  text-transform: uppercase;
+}

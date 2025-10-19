@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="uppercase bg-body text-white tracking-wider">
+    <html lang="en" className="bg-body text-white tracking-wider">
       <head>
         <link rel="icon" href="/assets/abyss.svg" />
       </head>
