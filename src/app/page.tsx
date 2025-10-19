@@ -4,14 +4,13 @@ export default function Home() {
   return (
     <div className="font-klartext text-3xl grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
+        <img
+          src="assets/abyss.png"
           alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          width={100}
+          height={100}
         />
+        <span className="text-7xl">Abyss</span>
         <ol className="list-inside list-decimal text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
@@ -32,14 +31,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            💀 Deploy now
           </a>
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-btn-warning text-background gap-2 hover:bg-btn-warning-hover dark:hover:bg-[#ccc] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
@@ -47,14 +39,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            💀 Deploy now
           </a>
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-btn-error text-background gap-2 hover:bg-btn-error-hover dark:hover:bg-[#ccc] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
@@ -62,14 +47,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            💀 Deploy now
           </a>
           <a
             className="rounded-full border border-solid border-btn-success dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-success-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-auto"
