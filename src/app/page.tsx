@@ -72,7 +72,7 @@ export default function Home() {
             Deploy now
           </a>
           <a
-            className="rounded-full border border-solid border-btn-success dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-success-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            className="rounded-full border border-solid border-btn-success dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-success-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-auto"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
@@ -80,7 +80,7 @@ export default function Home() {
             Read our docs
           </a>
           <a
-            className="rounded-full border border-solid border-btn-warning dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-warning-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            className="rounded-full border border-solid border-btn-warning dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-warning-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-auto"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
@@ -88,7 +88,7 @@ export default function Home() {
             Read our docs
           </a>
           <a
-            className="rounded-full border border-solid border-btn-error dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-error-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            className="rounded-full border border-solid border-btn-error dark:border-white/[.145] transition-colors flex items-center justify-center hover:border-btn-error-hover dark:hover:bg-[#1a1a1a] font-medium sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-auto"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
