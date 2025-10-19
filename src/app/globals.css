@@ -1,3 +1,4 @@
+@import url("../../public/fonts/fonts.css");
 @import "tailwindcss";
 
 :root {
@@ -8,8 +9,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-klartext: "KlartextMono";
+  --font-klartext-italic: "KlartextMonoRegularItalic";
+  --font-klartext-bold: "KlartextMonoBold";
+  --font-klartext-bold-italic: "KlartextMonoBoldItalic";
+  --font-klartext-light: "KlartextMonoLight";
+  --font-klartext-light-italic: "KlartextMonoLightItalic";
+  --font-klartext-medium: "KlartextMonoMedium";
+  --font-klartext-medium-italic: "KlartextMonoMediumItalic";
+  --font-klartext-thin: "KlartextMonoThin";
+  --font-klartext-thin-italic: "KlartextMonoThinItalic";
 }
 
 @media (prefers-color-scheme: dark) {
