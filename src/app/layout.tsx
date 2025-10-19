@@ -13,6 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="uppercase bg-body text-white tracking-wider">
+      <head>
+        <link rel="icon" href="/assets/abyss.svg"/>
+      </head>
+      
       <body>
         {children}
       </body>
