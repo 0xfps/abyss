@@ -34,6 +34,20 @@ button {
   outline: none;
 }
 
+.spinner {
+  animation: spin 500ms ease 0s infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360);
+  }
+}
+
 /* Entire scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

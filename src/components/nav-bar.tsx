@@ -8,7 +8,7 @@ import { Icon } from "./icon";
 export default function NavBar() {
     const { address } = useAccount()
 
-    return <div className="p-2 md:p-5 h-[80px] flex items-center bg-red-200">
+    return <div className="p-2 md:p-5 h-[80px] flex items-center">
         <div className="h-full flex items-center w-[50%]">
             <a href="/">
                 <Icon width={80} height={80} />
