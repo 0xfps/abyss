@@ -14,7 +14,7 @@ export function Address({ address }: { address: string }) {
     }
 
     return <button
-        className="border-btn-success border-1 p-2 cursor-pointer hover:border-btn-success-hover w-[200px]"
+        className="border-btn-success border p-2 cursor-pointer hover:border-btn-success-hover w-[200px]"
         onMouseOver={() => setMouseOver(true)}
         onMouseOut={() => setMouseOver(false)}
         onClick={disconnectWallet}

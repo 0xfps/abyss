@@ -7,24 +7,26 @@ import commaNumber from "comma-number";
 import { chainIsSupported } from "@/utils/chain-is-supported";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import attpConfig from "@fifteenfigures/attp-config";
-import { ethers } from "ethers"
+import { ethers, EventLog, Log } from "ethers"
+import { useLeavesStore } from "@/hooks/use-leaves-store";
 
 export function Fetcher() {
     const config = useConfig()
     const { chainId } = useAccount()
     const leafCount = useFetchLeafCount()
-    const [width, setWidth] = useState<number>(100)
-    const [leaves, setLeaves] = useState<string[]>([])
+    const [width, setWidth] = useState<number>(0)
+    const { leaves, setLeaves, pushLeaves } = useLeavesStore()
     const [numberFetched, setNumberFetched] = useState<number>(0)
 
     useEffect(function () {
+        setLeaves([])
+        setNumberFetched(0)
+        
         if (!chainId || !chainIsSupported(chainId, config)) {
-            setLeaves([])
-            setNumberFetched(0)
             return
         }
 
-        // getLeaves()
+        getLeaves()
     }, [chainId])
 
     async function getLeaves() {
@@ -37,24 +39,33 @@ export function Fetcher() {
         const contract = new ethers.Contract(address, abi as any, provider)
         const blockNumber = await provider.getBlockNumber()
         let startBlockNumber = Number(attpConfig.testnetConfig.chainsConfig[chainId!].blockNumber)
-        const skip = 500
+        const skip = 900
 
-        // const coder = new ethers.AbiCoder()
+        while (Number(startBlockNumber) < blockNumber) {
+            const filters = await contract.queryFilter(
+                event, startBlockNumber, startBlockNumber + skip
+            )
 
-        // while (Number(startBlockNumber) < blockNumber) {
-        //     const filters = await contract.queryFilter(
-        //         event, startBlockNumber, startBlockNumber + skip
-        //     )
+            if (filters.length > 0) {
+                const leaves: string[] = []
 
-        //     console.log({ filters })
-        // }
+                filters.forEach(function (filter: Log | EventLog) {
+                    leaves.push(filter.topics[1])
+                })
+
+                pushLeaves(leaves)
+                setNumberFetched(prev => prev + leaves.length)
+            }
+
+            startBlockNumber += skip + 1
+        }
     }
 
     useEffect(function () {
-        calculateAndWidth()
+        calculateAndSetWidth()
     }, [numberFetched])
 
-    function calculateAndWidth() {
+    function calculateAndSetWidth() {
         if (numberFetched == 0) setWidth(0)
         else if (leafCount == 0) setWidth(0)
         else setWidth(Math.floor((numberFetched * 100) / leafCount))
@@ -63,11 +74,13 @@ export function Fetcher() {
     return <div className="py-2 md:p-2 col-span-4 md:col-span-1">
         <div className="flex justify-start items-center">
             <span className="text-xl text-btn-success">
-                {width < 100 ? <TbFidgetSpinner className="spinner" /> : <PiCloudCheckFill />}
+                {leafCount == 0 && <PiCloudCheckFill />} 
+                {leafCount != 0 ? width < 100 ? <TbFidgetSpinner className="spinner" /> : <PiCloudCheckFill /> : ""}
             </span>
             <span className="ml-2 text-sm md:text-base">
-                {width < 100 && `Fetching leaves... (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
-                {width >= 100 && `Fetched leaves. (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
+                { leafCount == 0 && "No leaves on this chain."}
+                {(leafCount != 0 && width < 100) && `Fetching leaves... (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
+                {(leafCount != 0 && width >= 100) && `Fetched leaves. (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
                 ({width}%)
             </span>
         </div>

@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --experimental-https",
-    "dev:mobile": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev --experimental-https",
+    "dev:mobile": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
-    "@fifteenfigures/attp-config": "^0.0.10",
+    "@fifteenfigures/attp-config": "^0.0.12",
     "@fifteenfigures/tiny-merkle-tree": "^0.0.65",
     "@tanstack/react-query": "^5.90.5",
     "@types/aos": "^3.0.7",

@@ -11,13 +11,14 @@ export function useFetchLeafCount(): number {
     const { chainId } = useAccount()
     const [leafCount, setLeafCount] = useState<number>(0)
 
-    if (!chainId) return 0
-
     const abi = attpConfig.attpAbi
     useEffect(function () {
-        if (chainIsSupported(chainId, config)) {
-            getLeafCount()
+        if (!chainId || !chainIsSupported(chainId, config)) {
+            setLeafCount(0)
+            return
         }
+
+        getLeafCount()
     }, [chainId])
 
     async function getLeafCount() {
