@@ -12,13 +12,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en" className="bg-body text-white tracking-wider">
+    <html lang="en" className="bg-body text-white tracking-wider font-klartext">
       <head>
         <link rel="icon" href="/assets/abyss.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
 
-      <body>
+      <body className="p-4">
         <GlobalProvider>
           {children}
         </GlobalProvider>

@@ -9,6 +9,10 @@
   --color-btn-success-hover: #0B5B37;
   --color-btn-warning-hover: #826621;
   --color-btn-error-hover: #7E1811;
+  --color-modal-bg: #02121D;
+  --color-modal-border: #A9AF2C;
+  --color-modal-btn: #A9AF2C;
+  --color-modal-btn-hover: #7E8321;
 
   --font-klartext: "KlartextMono";
   --font-klartext-italic: "KlartextMonoRegularItalic";
@@ -24,4 +28,42 @@
 
 * {
   text-transform: uppercase;
+}
+
+button {
+  outline: none;
+}
+
+/* Entire scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+}
+
+/* Track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #02040F;
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #02040F;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #02040F;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
