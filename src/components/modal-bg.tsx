@@ -1,3 +1,5 @@
+"use client"
+
 import { ChildType } from "@/types/child-type";
 
 export function ModalBg({ children }: ChildType) {

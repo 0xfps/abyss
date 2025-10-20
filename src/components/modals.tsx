@@ -1,3 +1,5 @@
+"use client"
+
 import { useModalStore } from "@/store/modal-store"
 import { LegalTOSModal } from "./legal-tos-modal"
 import { HowToUse } from "./how-to-use"

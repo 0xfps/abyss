@@ -1,3 +1,5 @@
+"use client"
+
 import { truncateAddress } from "@/utils/truncate-address"
 import { useContext, useState } from "react"
 import { disconnect } from "@wagmi/core"

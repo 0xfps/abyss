@@ -1,3 +1,5 @@
+"use client"
+
 import { useModalStore } from "@/store/modal-store"
 
 export function ConnectWalletButton() {

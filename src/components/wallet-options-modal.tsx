@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import { ModalBg } from "./modal-bg";
 import { ModalHeader } from "./modal-header";

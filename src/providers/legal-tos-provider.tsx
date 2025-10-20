@@ -1,3 +1,5 @@
+"use client"
+
 import { useModalStore } from "@/store/modal-store";
 import { ChildType } from "@/types/child-type";
 import { HOW_TO_USE, LEGAL_TOS } from "@/utils/constants"

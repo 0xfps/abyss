@@ -1,3 +1,5 @@
+"use client"
+
 import { useModalStore } from "@/store/modal-store";
 import { SlClose } from "react-icons/sl"
 

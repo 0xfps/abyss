@@ -1,3 +1,5 @@
+"use client"
+
 import { HOW_TO_USE } from "@/utils/constants";
 import { ModalBg } from "./modal-bg";
 import { useModalStore } from "@/store/modal-store";

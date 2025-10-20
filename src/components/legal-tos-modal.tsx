@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { ModalBg } from "./modal-bg";
 import { LEGAL_TOS } from "@/utils/constants";

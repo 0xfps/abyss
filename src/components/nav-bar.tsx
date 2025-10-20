@@ -1,3 +1,5 @@
+"use client"
+
 import { Address } from "./address";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import { Icon } from "./icon";
