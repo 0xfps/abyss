@@ -1,5 +1,5 @@
 import { Chain } from "viem";
-import { Config, useConfig } from "wagmi";
+import { Config } from "wagmi";
 
 export function chainIsSupported(chainId: number, config: Config): boolean {
     const chains = config.chains

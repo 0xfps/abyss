@@ -24,7 +24,7 @@ export function Fetcher() {
             return
         }
 
-        getLeaves()
+        // getLeaves()
     }, [chainId])
 
     async function getLeaves() {
@@ -32,13 +32,22 @@ export function Fetcher() {
         const chain = getChainFromId(chainId!, config)
         const rpc = chain.rpcUrls.default.http[0]
         const provider = new ethers.JsonRpcProvider(rpc);
-        const address = attpConfig.testnetConfig.chainsConfig[chainId!].attpAddress
+        const address = attpConfig.testnetConfig.chainsConfig[chainId!].attpAddress as string
         const abi = attpConfig.attpAbi
+        const contract = new ethers.Contract(address, abi as any, provider)
         const blockNumber = await provider.getBlockNumber()
-        let startBlockNumber = attpConfig.testnetConfig.chainsConfig[chainId!].blockNumber
+        let startBlockNumber = Number(attpConfig.testnetConfig.chainsConfig[chainId!].blockNumber)
         const skip = 500
-        
-        const coder = new ethers.AbiCoder()
+
+        // const coder = new ethers.AbiCoder()
+
+        // while (Number(startBlockNumber) < blockNumber) {
+        //     const filters = await contract.queryFilter(
+        //         event, startBlockNumber, startBlockNumber + skip
+        //     )
+
+        //     console.log({ filters })
+        // }
     }
 
     useEffect(function () {
@@ -62,7 +71,7 @@ export function Fetcher() {
                 ({width}%)
             </span>
         </div>
-        <div className="border-1 border-btn-success p-1 mt-1">
+        <div className="border border-btn-success p-1 mt-1">
             <div className="bg-btn-success p-2" style={{ width: `${width}%` }}></div>
         </div>
     </div>
