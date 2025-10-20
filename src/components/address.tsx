@@ -1,12 +1,12 @@
 "use client"
 
 import { truncateAddress } from "@/utils/truncate-address"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { disconnect } from "@wagmi/core"
-import { GlobalContext } from "@/providers/global-provider"
+import { useConfig } from "wagmi"
 
 export function Address({ address }: { address: string }) {
-    const { config } = useContext(GlobalContext)
+    const config = useConfig()
     const [mouseOver, setMouseOver] = useState<boolean>(false)
 
     async function disconnectWallet() {

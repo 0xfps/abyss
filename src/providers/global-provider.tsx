@@ -2,7 +2,6 @@
 
 import { getProjectId } from "@/server/get-project-id";
 import { ChildType } from "@/types/child-type";
-import { GlobalContextType } from "@/types/global-context-type";
 import createWagmiConfig from "@/utils/create-wagmi-config";
 import { createContext, useEffect, useState } from "react";
 import { Config } from "@wagmi/core";
@@ -12,9 +11,7 @@ import { Modals } from "@/components/modals";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export const GlobalContext = createContext<GlobalContextType>({
-    config: undefined
-})
+export const GlobalContext = createContext<"">("")
 
 const queryClient = new QueryClient()
 
@@ -31,7 +28,7 @@ export default function GlobalProvider({ children }: ChildType) {
         setConfig(wagmiConfig)
     }
 
-    return config && <GlobalContext.Provider value={{ config }}>
+    return config && <GlobalContext.Provider value={""}>
         <AOSProvider>
             <LegalTOSProvider>
                 <WagmiProvider config={config}>

@@ -4,13 +4,13 @@ import Image from "next/image";
 import { ModalBg } from "./modal-bg";
 import { ModalHeader } from "./modal-header";
 import { baseIcon, geminiIcon, metamaskIcon, portoIcon, rabbyIcon, safeIcon, walletConnectIcon } from "../../public";
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "@/providers/global-provider";
+import { useEffect, useState } from "react";
 import { connect, Connector } from "@wagmi/core"
 import { useModalStore } from "@/store/modal-store";
+import { useConfig } from "wagmi";
 
 export function WalletConnectionOptions() {
-    const { config } = useContext(GlobalContext)
+    const config = useConfig()
     const { removeModal } = useModalStore()
 
     const [hasRabby, setHasRabby] = useState<boolean>(false)
@@ -22,7 +22,7 @@ export function WalletConnectionOptions() {
         portoConnector,
         safeConnector,
         walletConnectConnector
-    ] = config!.connectors
+    ] = config.connectors
 
     useEffect(function () {
         if (window) {
@@ -34,7 +34,7 @@ export function WalletConnectionOptions() {
 
     async function connectToWallet(connector: Connector) {
         try {
-            const connected = await connect(config!, { connector })
+            const connected = await connect(config, { connector })
             if (connected) removeModal()
         } catch { }
     }

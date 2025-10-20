@@ -1,9 +1,9 @@
 "use client"
 
+import { useAccount } from "wagmi";
 import { Address } from "./address";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import { Icon } from "./icon";
-import { useAccount } from "wagmi"
 
 export default function NavBar() {
     const { address } = useAccount()
