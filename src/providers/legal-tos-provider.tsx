@@ -15,8 +15,6 @@ export default function LegalTOSProvider({ children }: ChildType) {
             const hasAgreedToTOS = localStorage.getItem(LEGAL_TOS)
             const hasReadHowToUse = localStorage.getItem(HOW_TO_USE)
 
-            console.log({ hasAgreedToTOS, hasReadHowToUse })
-
             if (hasAgreedToTOS !== "true") {
                 setModal("LEGAL-TOS")
             } else {

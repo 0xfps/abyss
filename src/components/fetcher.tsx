@@ -1,27 +1,11 @@
 import { useEffect, useState } from "react"
 import { TbFidgetSpinner } from "react-icons/tb";
 import { PiCloudCheckFill } from "react-icons/pi";
+import { useFetchLeafCount } from "@/hooks/use-fetch-leaf-count";
 
 export function Fetcher() {
-    const [width, setWidth] = useState<number>(0)
-    const [i, setI] = useState<NodeJS.Timeout | null>(null)
-
-    useEffect(function () {
-        const i = setInterval(function () {
-            setWidth(prev => prev + 5)
-        }, 500)
-
-        setI(i)
-    }, [])
-
-    useEffect(function () {
-        console.log({ width })
-
-        if (width >= 100) {
-            setWidth(100)
-            clearInterval(i!)
-        }
-    }, [width])
+    const leafCount = useFetchLeafCount()
+    const [width, setWidth] = useState<number>(100)
 
     return <div className="py-2 md:p-2 col-span-4 md:col-span-1">
         <div className="flex justify-start items-center">
