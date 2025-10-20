@@ -1,7 +1,11 @@
+import { Address } from "./address";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import { Icon } from "./icon";
+import { useAccount } from "wagmi"
 
 export default function NavBar() {
+    const { address } = useAccount()
+
     return <div className="p-2 md:p-5 h-[80px] flex items-center">
         <div className="h-full flex items-center w-[50%]">
             <a href="/">
@@ -10,7 +14,7 @@ export default function NavBar() {
             <a href="/docs" className="ml-3 md:ml-5 hover:underline">docs</a>
         </div>
         <div className="flex items-center justify-end w-[50%] h-full">
-            <ConnectWalletButton />
+            {address ? <Address address={address} /> : <ConnectWalletButton />}
         </div>
     </div>
 }

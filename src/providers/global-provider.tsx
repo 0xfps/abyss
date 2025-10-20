@@ -9,10 +9,14 @@ import { Config } from "@wagmi/core";
 import { AOSProvider } from "./aos-provider";
 import LegalTOSProvider from "./legal-tos-provider";
 import { Modals } from "@/components/modals";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const GlobalContext = createContext<GlobalContextType>({
     config: undefined
 })
+
+const queryClient = new QueryClient()
 
 export default function GlobalProvider({ children }: ChildType) {
     const [config, setConfig] = useState<Config | undefined>(undefined)
@@ -30,8 +34,12 @@ export default function GlobalProvider({ children }: ChildType) {
     return config && <GlobalContext.Provider value={{ config }}>
         <AOSProvider>
             <LegalTOSProvider>
-                <Modals/>
-                {children}
+                <WagmiProvider config={config}>
+                    <QueryClientProvider client={queryClient}>
+                        <Modals />
+                        {children}
+                    </QueryClientProvider>
+                </WagmiProvider>
             </LegalTOSProvider>
         </AOSProvider>
     </GlobalContext.Provider>

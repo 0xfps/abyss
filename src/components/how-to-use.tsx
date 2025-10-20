@@ -1,4 +1,4 @@
-import { LEGAL_TOS } from "@/utils/constants";
+import { HOW_TO_USE } from "@/utils/constants";
 import { ModalBg } from "./modal-bg";
 import { useModalStore } from "@/store/modal-store";
 
@@ -7,7 +7,7 @@ export function HowToUse() {
 
     function agree() {
         if (localStorage) {
-            localStorage.setItem(LEGAL_TOS, "true")
+            localStorage.setItem(HOW_TO_USE, "true")
             removeModal()
         }
     }
@@ -19,13 +19,13 @@ export function HowToUse() {
             1. By using this product (“Service”), you agree to these Terms.
             The Service is provided by [Your Company Name] for lawful, personal use only.
             All content and materials are owned by [Your Company Name] and protected by law.
-            
+
             <br /><br />
-            
+
             2. The Service is provided “as is,” without warranties of any kind.
             [Your Company Name] is not liable for any damages, including data loss or interruption,
             arising from use.
-            
+
             <br /><br />
 
             3. Use of the Service also means you accept our Privacy Policy.
