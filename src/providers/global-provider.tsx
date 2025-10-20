@@ -7,6 +7,8 @@ import createWagmiConfig from "@/utils/create-wagmi-config";
 import { createContext, useEffect, useState } from "react";
 import { Config } from "@wagmi/core";
 import { AOSProvider } from "./aos-provider";
+import LegalTOSProvider from "./legal-tos-provider";
+import { Modals } from "@/components/modals";
 
 export const GlobalContext = createContext<GlobalContextType>({
     config: undefined
@@ -27,7 +29,10 @@ export default function GlobalProvider({ children }: ChildType) {
 
     return config && <GlobalContext.Provider value={{ config }}>
         <AOSProvider>
-            {children}
+            <LegalTOSProvider>
+                <Modals/>
+                {children}
+            </LegalTOSProvider>
         </AOSProvider>
     </GlobalContext.Provider>
 }

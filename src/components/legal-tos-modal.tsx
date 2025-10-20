@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { ModalBg } from "./modal-bg";
+import { LEGAL_TOS } from "@/utils/constants";
+import { useModalStore } from "@/store/modal-store";
 
 export function LegalTOSModal() {
+    const { setModal } = useModalStore()
     const [checked, setChecked] = useState<boolean>(false)
 
     function toggleCheck() {
         setChecked(!checked)
+    }
+
+    function agree() {
+        if (checked && localStorage) {
+            localStorage.setItem(LEGAL_TOS, "true")
+            setModal("HOW-TO-USE")
+        }
     }
 
     return <ModalBg>
@@ -33,6 +43,7 @@ export function LegalTOSModal() {
                 ${!checked ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-modal-btn-hover"} 
                 px-8`}
                 disabled={!checked}
+                onClick={agree}
             >
                 I understand, close
             </button>

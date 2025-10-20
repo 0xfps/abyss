@@ -1,4 +1,4 @@
-export type ModalNames = "" | "LEGAL-TOS"
+export type ModalNames = "" | "LEGAL-TOS" | "HOW-TO-USE"
 
 export type ModalStoreType = {
     modal: ModalNames,
