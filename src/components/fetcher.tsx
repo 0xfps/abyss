@@ -15,7 +15,7 @@ import { getChainName } from "@/utils/get-chain-name";
 
 export function Fetcher() {
     const config = useConfig()
-    const { pollChainId, setPollChainId } = useContext(ChainIdContext)
+    const { pollChainId } = useContext(ChainIdContext)
     const leafCount = useFetchLeafCount()
     const [width, setWidth] = useState<number>(0)
     const { setLeaves, pushLeaves } = useLeavesStore()
@@ -102,7 +102,14 @@ export function Fetcher() {
                 <span className="cursor-pointer hover:opacity-80 text-sm" onClick={() => { }}>[Switch]</span>
             </span>
         </div>
-        <div className="border border-btn-success p-1 mt-1">
+        <div className="border border-btn-success p-1 mt-1 relative">
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">
+                {
+                    chainIsSupported(pollChainId, config)
+                        ? getChainName(getChainFromId(pollChainId, config))
+                        : ""
+                }
+            </span>
             <div className="bg-btn-success p-2" style={{ width: `${width}%` }}></div>
         </div>
     </div>

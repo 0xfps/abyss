@@ -1,5 +1,6 @@
 import { ChildType } from "@/types/child-type";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { useAccount } from "wagmi";
 
 export const ChainIdContext = createContext<{
     pollChainId: number,
@@ -12,7 +13,8 @@ export const ChainIdContext = createContext<{
 })
 
 export default function ChainIdProvider({ children }: ChildType) {
-    const [pollChainId, setPollChainId] = useState<number>(0)
+    const { chainId} = useAccount()
+    const [pollChainId, setPollChainId] = useState<number>(chainId || 0)
 
     function removePollChainId() {
         setPollChainId(0)
