@@ -10,6 +10,7 @@ import LegalTOSProvider from "./legal-tos-provider";
 import { Modals } from "@/components/modals";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ChainIdProvider from "./chain-id-provider";
 
 export const GlobalContext = createContext<"">("")
 
@@ -33,8 +34,10 @@ export default function GlobalProvider({ children }: ChildType) {
             <LegalTOSProvider>
                 <WagmiProvider config={config}>
                     <QueryClientProvider client={queryClient}>
-                        <Modals />
-                        {children}
+                        <ChainIdProvider>
+                            <Modals />
+                            {children}
+                        </ChainIdProvider>
                     </QueryClientProvider>
                 </WagmiProvider>
             </LegalTOSProvider>

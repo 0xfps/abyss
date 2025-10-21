@@ -1,16 +1,19 @@
 "use client"
 
 import { truncateAddress } from "@/utils/truncate-address"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { disconnect } from "@wagmi/core"
 import { useConfig } from "wagmi"
+import { ChainIdContext } from "@/providers/chain-id-provider"
 
 export function Address({ address }: { address: string }) {
     const config = useConfig()
+    const { removePollChainId } = useContext(ChainIdContext)
     const [mouseOver, setMouseOver] = useState<boolean>(false)
 
     async function disconnectWallet() {
-        await disconnect(config!)
+        removePollChainId()
+        await disconnect(config)
     }
 
     return <button

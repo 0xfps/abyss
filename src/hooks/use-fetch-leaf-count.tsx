@@ -1,33 +1,34 @@
 "use client"
 
 import { chainIsSupported } from "@/utils/chain-is-supported";
-import { useEffect, useState } from "react";
-import { useAccount, useConfig } from "wagmi";
+import { useContext, useEffect, useState } from "react";
+import { useConfig } from "wagmi";
 import attpConfig from "@fifteenfigures/attp-config"
 import { readContract } from "@wagmi/core"
+import { ChainIdContext } from "@/providers/chain-id-provider";
 
 export function useFetchLeafCount(): number {
     const config = useConfig()
-    const { chainId } = useAccount()
+    const { pollChainId } = useContext(ChainIdContext)
     const [leafCount, setLeafCount] = useState<number>(0)
 
     const abi = attpConfig.attpAbi
     useEffect(function () {
-        if (!chainId || !chainIsSupported(chainId, config)) {
+        if (!pollChainId || !chainIsSupported(pollChainId, config)) {
             setLeafCount(0)
             return
         }
 
         getLeafCount()
-    }, [chainId])
+    }, [pollChainId])
 
     async function getLeafCount() {
-        const mainAddress = attpConfig.testnetConfig.chainsConfig[chainId!].attpAddress
+        const mainAddress = attpConfig.testnetConfig.chainsConfig[pollChainId!].attpAddress
         const leafCount = await readContract(config, {
             address: mainAddress as `0x${string}`,
             abi,
             functionName: "length",
-            chainId
+            chainId: pollChainId
         })
 
         setLeafCount(leafCount as number)

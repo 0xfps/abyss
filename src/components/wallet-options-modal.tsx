@@ -4,14 +4,16 @@ import Image from "next/image";
 import { ModalBg } from "./modal-bg";
 import { ModalHeader } from "./modal-header";
 import { baseIcon, geminiIcon, metamaskIcon, portoIcon, rabbyIcon, safeIcon, walletConnectIcon } from "../../public";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { connect, Connector } from "@wagmi/core"
 import { useModalStore } from "@/store/modal-store";
 import { useConfig } from "wagmi";
+import { ChainIdContext } from "@/providers/chain-id-provider";
 
 export function WalletConnectionOptions() {
     const config = useConfig()
     const { removeModal } = useModalStore()
+    const { setPollChainId } = useContext(ChainIdContext)
 
     const [hasRabby, setHasRabby] = useState<boolean>(false)
     const [
@@ -35,7 +37,11 @@ export function WalletConnectionOptions() {
     async function connectToWallet(connector: Connector) {
         try {
             const connected = await connect(config, { connector })
-            if (connected) removeModal()
+            if (connected) {
+                const chainId = connected.chainId
+                setPollChainId(chainId)
+                removeModal()
+            }
         } catch { }
     }
 
