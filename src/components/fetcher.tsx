@@ -11,10 +11,11 @@ import { ethers, EventLog, InterfaceAbi, JsonRpcProvider, Log } from "ethers"
 import { useLeavesStore } from "@/hooks/use-leaves-store";
 import { BLOCK_CRAWL_INTERVAL, DEPOSIT_EVENT } from "@/utils/constants";
 import { ChainIdContext } from "@/providers/chain-id-provider";
+import { getChainName } from "@/utils/get-chain-name";
 
 export function Fetcher() {
     const config = useConfig()
-    const { pollChainId } = useContext(ChainIdContext)
+    const { pollChainId, setPollChainId } = useContext(ChainIdContext)
     const leafCount = useFetchLeafCount()
     const [width, setWidth] = useState<number>(0)
     const { setLeaves, pushLeaves } = useLeavesStore()
@@ -42,7 +43,7 @@ export function Fetcher() {
         const { attpAddress, blockNumber } = attpData
         const main = new ethers.Contract(attpAddress as string, ABI, provider)
         const currentBlockNumber = await provider.getBlockNumber()
-        
+
         let startBlockNumber = Number(blockNumber)
 
         while (startBlockNumber < currentBlockNumber) {
@@ -82,17 +83,23 @@ export function Fetcher() {
         else setWidth(Math.floor((numberFetched * 100) / leafCount))
     }
 
-    return <div className="py-2 md:p-2 col-span-4 md:col-span-1">
-        <div className="flex justify-start items-center">
-            <span className="text-xl text-btn-success">
-                {leafCount == 0 && <PiCloudCheckFill />}
-                {leafCount != 0 ? width < 100 ? <TbFidgetSpinner className="spinner" /> : <PiCloudCheckFill /> : ""}
+    return <div className="py-2 lg:p-2 col-span-4 lg:col-span-1">
+        <div className="flex justify-between items-center">
+            <span className="flex justify-start items-center">
+                <span className="text-xl text-btn-success">
+                    {leafCount == 0 && <PiCloudCheckFill />}
+                    {leafCount != 0 ? width < 100 ? <TbFidgetSpinner className="spinner" /> : <PiCloudCheckFill /> : ""}
+                </span>
+                <span className="ml-2 text-sm md:text-base">
+                    {leafCount == 0 && "No leaves on this chain."}
+                    {(leafCount != 0 && width < 100) && `Fetching leaves... (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
+                    {(leafCount != 0 && width >= 100) && `Fetched leaves. (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
+                    ({width}%)
+                </span>
             </span>
-            <span className="ml-2 text-sm md:text-base">
-                {leafCount == 0 && "No leaves on this chain."}
-                {(leafCount != 0 && width < 100) && `Fetching leaves... (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
-                {(leafCount != 0 && width >= 100) && `Fetched leaves. (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
-                ({width}%)
+
+            <span className="flex flex-col justify-end">
+                <span className="cursor-pointer hover:opacity-80 text-sm" onClick={() => { }}>[Switch]</span>
             </span>
         </div>
         <div className="border border-btn-success p-1 mt-1">
