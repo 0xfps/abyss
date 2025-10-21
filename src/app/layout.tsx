@@ -20,7 +20,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
 
-      <body className="p-4">
+      <body className="p-4 md:mx-24 lg:mx-64">
         <GlobalProvider>
           {children}
         </GlobalProvider>

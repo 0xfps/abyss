@@ -83,7 +83,7 @@ export function Fetcher() {
         else setWidth(Math.floor((numberFetched * 100) / leafCount))
     }
 
-    return <div className="py-2 lg:p-2 col-span-4 lg:col-span-1">
+    return <div className="py-2 lg:p-2 col-span-6 lg:col-span-2">
         <div className="flex justify-between items-center">
             <span className="flex justify-start items-center">
                 <span className="text-xl text-btn-success">

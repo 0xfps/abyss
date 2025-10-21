@@ -15,7 +15,7 @@ export function Announcement() {
         setHasSeenLatestAnnouncemet(true)
     }
 
-    return <div className="text-sm h-[60px] lg:h-full col-span-4 lg:col-span-3">
+    return <div className="text-sm h-[60px] lg:h-full col-span-6 lg:col-span-4">
         {
             // !hasSeenLatestAnnouncement &&
             <div className="bg-btn-warning h-full flex justify-between items-center px-1 md:px-3">
