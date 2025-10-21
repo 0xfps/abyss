@@ -2,8 +2,15 @@ import { loadImage } from "@/utils/load-image";
 import attpConfig from "@fifteenfigures/attp-config";
 import { FaGasPump } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
+import { useState } from "react";
 
 export function Swap() {
+    const [showUSD, setShowUSD] = useState<boolean>(false)
+
+    function toggleShowUSD() {
+        setShowUSD(!showUSD)
+    }
+
     return <div className="w-full p-2">
         <div className="p-2 bg-body h-[120px]">
             <div className="h-[20%] flex justify-between">
@@ -31,8 +38,8 @@ export function Swap() {
                 <span>
                     $25,609.87
                 </span>
-                <span className="tracking-normal">
-                    Balance 25,610.12 ($25,609.87)
+                <span>
+                    Balance <span onClick={toggleShowUSD}>{!showUSD ? "25,610.12" : "$25,609.87"}</span>
                 </span>
             </div>
         </div>
@@ -47,7 +54,7 @@ export function Swap() {
             </div>
 
             <div className="h-[60%] flex">
-                <div className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tighter">
+                <div className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight">
                     25,610.12
                 </div>
                 <div className="w-[20%] flex justify-end items-center">
