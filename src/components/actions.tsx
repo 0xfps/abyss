@@ -6,7 +6,7 @@ import { Withdraw } from "./withdraw"
 type ActionTypes = "SWAP" | "DEPOSIT" | "WITHDRAW"
 
 export function Actions() {
-    const [action, setAction] = useState<ActionTypes>("SWAP")
+    const [action, setAction] = useState<ActionTypes>("WITHDRAW")
 
     function loadCustomStyle(type: ActionTypes) {
         const defaultStyle = "h-full py-4 flex justify-center items-center lg:py-7 col-span-1 cursor-pointer text-md lg:text-lg"

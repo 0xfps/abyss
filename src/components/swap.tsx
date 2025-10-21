@@ -1,3 +1,5 @@
+"use client"
+
 import { loadImage } from "@/utils/load-image";
 import attpConfig from "@fifteenfigures/attp-config";
 import { FaGasPump } from "react-icons/fa6";
