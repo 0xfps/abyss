@@ -10,7 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@fifteenfigures/attp-config": "^0.0.12",
+    "@fifteenfigures/attp-config": "^0.0.15",
     "@fifteenfigures/tiny-merkle-tree": "^0.0.65",
     "@tanstack/react-query": "^5.90.5",
     "@types/aos": "^3.0.7",
