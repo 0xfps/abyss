@@ -5,12 +5,19 @@ import attpConfig from "@fifteenfigures/attp-config";
 import { FaGasPump } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
+import { useModalStore } from "@/store/modal-store";
+import { getChainImage } from "@/utils/get-chain-image";
 
 export function Swap() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
+    const { setModal } = useModalStore()
 
     function toggleShowUSD() {
         setShowUSD(!showUSD)
+    }
+
+    function showSelectAsset() {
+        setModal("SELECT-ASSET")
     }
 
     return <div className="w-full p-2">
@@ -27,10 +34,10 @@ export function Swap() {
             <div className="h-[60%] flex">
                 <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" value="25,610.12" />
                 <div className="w-[20%] flex justify-end items-center">
-                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer">
+                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={showSelectAsset}>
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
-                            loadImage(attpConfig.testnetConfig.chainsConfig[421614].image as string)
+                            loadImage(getChainImage(421614))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>
@@ -63,7 +70,7 @@ export function Swap() {
                     <div className="relative h-full aspect-square p-2">
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
-                            loadImage(attpConfig.testnetConfig.chainsConfig[421614].image as string)
+                            loadImage(getChainImage(421614))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>

@@ -6,6 +6,7 @@ import { FaGasPump } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
 import { createRandomString } from "@/utils/create-random-string";
+import { getChainImage } from "@/utils/get-chain-image";
 
 export function Withdraw() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
@@ -74,7 +75,7 @@ export function Withdraw() {
                     <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer">
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
-                            loadImage(attpConfig.testnetConfig.chainsConfig[421614].image as string)
+                            loadImage(getChainImage(421614))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>

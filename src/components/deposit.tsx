@@ -6,6 +6,7 @@ import { FaGasPump } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
 import { createRandomString } from "@/utils/create-random-string";
+import { getChainImage } from "@/utils/get-chain-image";
 
 export function Deposit() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
@@ -28,10 +29,10 @@ export function Deposit() {
             <div className="h-[60%] flex">
                 <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" value="25,610.12" />
                 <div className="w-[20%] flex justify-end items-center">
-                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer">
+                    <div className="relative h-full aspect-square p-2">
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
-                            loadImage(attpConfig.testnetConfig.chainsConfig[421614].image as string)
+                            loadImage(getChainImage(421614))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>

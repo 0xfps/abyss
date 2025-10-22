@@ -7,13 +7,8 @@ import { useContext, useEffect, useState } from "react"
 import { loadImage } from "@/utils/load-image"
 import { PollChainIdContext } from "@/providers/poll-chain-id-provider"
 import { useModalStore } from "@/store/modal-store"
-import { ModalNames } from "@/types/modal-store-type"
-
-interface ChainArr {
-    name: string,
-    image: string,
-    id: number
-}
+import { ChainIdContext } from "@/providers/chain-id-provider"
+import { ChainArr } from "@/types/chain-array-type"
 
 /**
  * This modal is flexible and does two things at once.
@@ -23,7 +18,15 @@ export function SwitchChainModal() {
     const chains = attpConfig.testnetConfig.chains
     const [chainArr, setChainArr] = useState<ChainArr[]>([])
     const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
+    const { chainId, setChainId } = useContext(ChainIdContext)
     const { prevModal, setModal } = useModalStore()
+    // Is true if the previous modal is empty, meaning it was called from the [SWITCH]
+    // to change the poll chain.
+    const [calledOnSwitchPollChain,] = useState<boolean>(prevModal == "")
+    // Whenever the modal is up, irrespective of where it was called from,
+    // this will hold the Id of the chain, which can either be the poll chain,
+    // if it was from there, or the action chain Id, if it was from there.
+    const [alreadySelectedChainId,] = useState<number>(calledOnSwitchPollChain ? pollChainId : chainId)
 
     useEffect(function () {
         chains.forEach(function ({ id, name }) {
@@ -36,14 +39,17 @@ export function SwitchChainModal() {
     }, [])
 
     function selectChain(id: number) {
-        if (!prevModal)
+        if (calledOnSwitchPollChain)
             setPollChainId(id)
+        else setChainId(id)
+
         setModal(prevModal)
     }
 
     return <ModalBg>
         <div>
             <ModalHeader title="Select chain" />
+            <input type="text" className="w-full bg-body p-2 placeholder:opacity-50 mt-2" value="" placeholder="Search for chain" />
             <div
                 className="mt-2 p-2 grid grid-cols-2 md:grid-cols-3
                 gap-x-2 gap-y-4 overflow-y-scroll max-h-[60vh]
@@ -55,7 +61,7 @@ export function SwitchChainModal() {
                             cursor-pointer border border-transparent bg-body
                             hover:opacity-80  hover:border-modal-btn-hover h-[60px] md:h-[50px]"
                         key={index}
-                        style={(id == pollChainId) ? { border: "1px solid #7E8321" } : {}} // Not really poll chain Id, but for this test.
+                        style={(id == alreadySelectedChainId) ? { border: "1px solid #7E8321" } : {}} // Not really poll chain Id, but for this test.
                         onClick={() => selectChain(id)}
                     >
                         <img src={loadImage(image)} alt={name} className="w-[30px] h-[30px]" />

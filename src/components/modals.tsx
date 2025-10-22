@@ -16,6 +16,6 @@ export function Modals() {
         {modal == "HOW-TO-USE" && <HowToUse />}
         {modal == "CONNECT-WALLET" && <WalletConnectionOptions />}
         {modal == "SWITCH-CHAIN" && <SwitchChainModal />}
-        { modal == "SELECT ASSET" && <SelectAssetModal/>}
+        { modal == "SELECT-ASSET" && <SelectAssetModal/>}
     </>
 }

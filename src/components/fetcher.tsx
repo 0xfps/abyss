@@ -93,7 +93,8 @@ export function Fetcher() {
                     {leafCount != 0 ? width < 100 ? <TbFidgetSpinner className="spinner" /> : <PiCloudCheckFill /> : ""}
                 </span>
                 <span className="ml-2 text-sm md:text-base">
-                    {leafCount == 0 && "No leaves on this chain."}
+                    {pollChainId == 0 && "No chain selected."}
+                    {(pollChainId != 0 && leafCount == 0) && "No leaves on this chain."}
                     {(leafCount != 0 && width < 100) && `Fetching leaves... (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
                     {(leafCount != 0 && width >= 100) && `Fetched leaves. (${commaNumber(numberFetched)}/${commaNumber(leafCount)})`}
                     ({width}%)

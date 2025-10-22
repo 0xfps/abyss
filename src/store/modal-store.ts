@@ -16,7 +16,7 @@ export const useModalStore = create<ModalStoreType>(
             },
             setPrevModal: function (name: ModalNames) {
                 return set({
-                    modal: name
+                    prevModal: name
                 })
             },
             removeModal: function () {
