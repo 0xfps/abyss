@@ -1,19 +1,13 @@
 import { type Config, createConfig, http } from "@wagmi/core";
 import { baseAccount, gemini, injected, metaMask, porto, safe, walletConnect } from "@wagmi/connectors"
 import { arbitrumSepolia, avalancheFuji, baseSepolia, bscTestnet, optimismSepolia, sepolia } from "wagmi/chains"
+import attpConfig from "@fifteenfigures/attp-config";
 
 export default function createWagmiConfig(projectId: string | undefined): Config {
     if (!projectId) throw new Error("No Project Id Set!")
 
     const config = createConfig({
-        chains: [
-            arbitrumSepolia,
-            avalancheFuji,
-            baseSepolia,
-            bscTestnet,
-            optimismSepolia,
-            sepolia
-        ],
+        chains: attpConfig.testnetConfig.chains as any,
         connectors: [
             baseAccount({
                 appName: "Abyss",
