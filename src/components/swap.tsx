@@ -7,6 +7,7 @@ import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
 import { useModalStore } from "@/store/modal-store";
 import { getChainImage } from "@/utils/get-chain-image";
+import { RiSwapBoxFill } from "react-icons/ri";
 
 export function Swap() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
@@ -47,6 +48,9 @@ export function Swap() {
                 <span>
                     $25,609.87
                 </span>
+                <div className="w-fit h-fit p-[2px] bg-body absolute m-auto top-0 left-0 right-0 mt-5 flex justify-center items-center">
+                    <RiSwapBoxFill className="rotate-90 text-2xl cursor-pointer hover:opacity-80"/>
+                </div>
                 <span>
                     Balance <span onClick={toggleShowUSD}>{!showUSD ? "25,610.12" : "$25,609.87"}</span>
                 </span>
