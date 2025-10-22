@@ -102,7 +102,7 @@ export function Swap() {
             </div>
         </div>
         <div className="mt-4">
-            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer">
+            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer" onClick={() => setModal("SWAP-PREVIEW")}>
                 Preview swap
             </button>
         </div>

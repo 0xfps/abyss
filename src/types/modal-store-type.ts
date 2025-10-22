@@ -3,10 +3,16 @@ export type ModalNames = "" |
     "HOW-TO-USE" |
     "CONNECT-WALLET" |
     "SWITCH-CHAIN" |
+    "SELECT-ASSET" |
     "DEPOSIT-PREVIEW" |
-    "WITHDRAWAL-PREVIEW" |
+    "WITHDRAW-PREVIEW" |
     "SWAP-PREVIEW" |
-    "SELECT-ASSET"
+    "DEPOSIT-SUCCESS" |
+    "DEPOSIT-FAILURE" |
+    "WITHDRAWAL-SUCCESS" |
+    "WITHDRAWAL-FAILURE" |
+    "SWAP-SUCCESS" | 
+    "SWAP-FAILURE"
 
 export type ModalStoreType = {
     modal: ModalNames,

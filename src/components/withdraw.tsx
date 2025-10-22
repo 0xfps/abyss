@@ -7,9 +7,11 @@ import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
 import { createRandomString } from "@/utils/create-random-string";
 import { getChainImage } from "@/utils/get-chain-image";
+import { useModalStore } from "@/store/modal-store";
 
 export function Withdraw() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
+    const { setModal } = useModalStore()
 
     function toggleShowUSD() {
         setShowUSD(!showUSD)
@@ -72,7 +74,7 @@ export function Withdraw() {
             <div className="h-[60%] flex">
                 <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" value="25,610.12" />
                 <div className="w-[20%] flex justify-end items-center">
-                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer">
+                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={() => setModal("SWITCH-CHAIN")}>
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
                             loadImage(getChainImage(421614))
@@ -112,7 +114,7 @@ export function Withdraw() {
             </div>
         </div>
         <div className="mt-4">
-            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer">
+            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer" onClick={() => setModal("WITHDRAW-PREVIEW")}>
                 Preview withdrawal
             </button>
         </div>

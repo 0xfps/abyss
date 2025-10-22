@@ -12,7 +12,7 @@ export function SelectAssetModal() {
     const [chainArr, setChainArr] = useState<ChainArr[]>([])
     const { chainId, setChainId } = useContext(ChainIdContext)
     const [assets, setAssets] = useState<Token[]>([])
-    const { setModal, setPrevModal } = useModalStore()
+    const { setModal, setPrevModal, removeModal } = useModalStore()
 
     useEffect(function () {
         chains.forEach(function ({ id, name }) {
@@ -79,6 +79,7 @@ export function SelectAssetModal() {
                                         hover:opacity-80  hover:border-modal-btn-hover h-[60px] md:h-[50px]"
                         key={index}
                         style={(index == chainId) ? { border: "1px solid #7E8321" } : {}} // @todo
+                        onClick={() => removeModal()}
                     >
                         <img src={loadImage(image)} alt={symbol} className="w-[30px] h-[30px]" />
                         <span className="ml-3">{symbol}</span>
