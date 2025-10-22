@@ -5,7 +5,7 @@ import { ModalBg } from "./modal-bg"
 import { ModalHeader } from "./modal-header"
 import { useContext, useEffect, useState } from "react"
 import { loadImage } from "@/utils/load-image"
-import { ChainIdContext } from "@/providers/chain-id-provider"
+import { PollChainIdContext } from "@/providers/poll-chain-id-provider"
 import { useModalStore } from "@/store/modal-store"
 import { ModalNames } from "@/types/modal-store-type"
 
@@ -22,7 +22,7 @@ interface ChainArr {
 export function SwitchChainModal() {
     const chains = attpConfig.testnetConfig.chains
     const [chainArr, setChainArr] = useState<ChainArr[]>([])
-    const { pollChainId, setPollChainId } = useContext(ChainIdContext)
+    const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
     const { prevModal, setModal } = useModalStore()
 
     useEffect(function () {

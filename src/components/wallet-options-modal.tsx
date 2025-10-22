@@ -8,12 +8,12 @@ import { useContext, useEffect, useState } from "react";
 import { connect, Connector } from "@wagmi/core"
 import { useModalStore } from "@/store/modal-store";
 import { useConfig } from "wagmi";
-import { ChainIdContext } from "@/providers/chain-id-provider";
+import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 
 export function WalletConnectionOptions() {
     const config = useConfig()
     const { removeModal } = useModalStore()
-    const { setPollChainId } = useContext(ChainIdContext)
+    const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
 
     const [hasRabby, setHasRabby] = useState<boolean>(false)
     const [
@@ -39,7 +39,8 @@ export function WalletConnectionOptions() {
             const connected = await connect(config, { connector })
             if (connected) {
                 const chainId = connected.chainId
-                setPollChainId(chainId)
+                if (!pollChainId)
+                    setPollChainId(chainId)
                 removeModal()
             }
         } catch { }

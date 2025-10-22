@@ -10,13 +10,13 @@ import attpConfig from "@fifteenfigures/attp-config";
 import { ethers, EventLog, InterfaceAbi, JsonRpcProvider, Log } from "ethers"
 import { useLeavesStore } from "@/hooks/use-leaves-store";
 import { BLOCK_CRAWL_INTERVAL, DEPOSIT_EVENT } from "@/utils/constants";
-import { ChainIdContext } from "@/providers/chain-id-provider";
+import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 import { getChainName } from "@/utils/get-chain-name";
 import { useModalStore } from "@/store/modal-store";
 
 export function Fetcher() {
     const config = useConfig()
-    const { pollChainId } = useContext(ChainIdContext)
+    const { pollChainId } = useContext(PollChainIdContext)
     const { setModal, setPrevModal } = useModalStore()
     const leafCount = useFetchLeafCount()
     const [width, setWidth] = useState<number>(0)

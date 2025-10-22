@@ -5,11 +5,11 @@ import { useContext, useEffect, useState } from "react";
 import { useConfig } from "wagmi";
 import attpConfig from "@fifteenfigures/attp-config"
 import { readContract } from "@wagmi/core"
-import { ChainIdContext } from "@/providers/chain-id-provider";
+import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 
 export function useFetchLeafCount(): number {
     const config = useConfig()
-    const { pollChainId } = useContext(ChainIdContext)
+    const { pollChainId } = useContext(PollChainIdContext)
     const [leafCount, setLeafCount] = useState<number>(0)
 
     const abi = attpConfig.attpAbi
