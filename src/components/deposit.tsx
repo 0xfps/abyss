@@ -8,6 +8,8 @@ import { useState } from "react";
 import { createRandomString } from "@/utils/create-random-string";
 import { getChainImage } from "@/utils/get-chain-image";
 import { useModalStore } from "@/store/modal-store";
+import { HiOutlineInformationCircle } from "react-icons/hi2";
+import { FaToggleOn, FaToggleOff } from "react-icons/fa6";
 
 export function Deposit() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
@@ -18,7 +20,24 @@ export function Deposit() {
     }
 
     return <div className="w-full p-2">
-        <div className="p-2 bg-body h-[120px]">
+        <div className="p-2 bg-body">
+            <div className="w-full flex justify-between items-center">
+                <span className="flex items-center">
+                    Include leaf <span className="ml-1 hover:opacity-80 cursor-pointer"><HiOutlineInformationCircle /></span>
+                </span>
+
+                <span className="hover:opacity-80 cursor-pointer text-2xl">
+                    <FaToggleOn className="text-btn-success" />
+                    {/* <FaToggleOff /> */}
+                </span>
+            </div>
+        </div>
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        <div className="p-2 bg-body h-[120px] mt-2">
             <div className="h-[20%] flex justify-between">
                 <span>
                     You send
