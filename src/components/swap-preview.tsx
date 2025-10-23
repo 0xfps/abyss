@@ -122,6 +122,12 @@ export function SwapPreview() {
                         {/* <FaCheck /> */}
                     </span>
                 </div>
+                <div className="w-full py-1 flex justify-between items-center text-xs">
+                    <span>Status</span>
+                    <span className="flex items-center text-btn-success">
+                        <span><FaCheck /></span>
+                    </span>
+                </div>
             </div>
             {/*  */}
             {/*  */}
