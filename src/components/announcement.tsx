@@ -18,7 +18,7 @@ export function Announcement() {
     return <div className="text-sm h-[60px] lg:h-full col-span-6 lg:col-span-4">
         {
             // !hasSeenLatestAnnouncement &&
-            <div className="bg-btn-warning h-full flex justify-between items-center px-1 md:px-3">
+            <div className="bg-modal-bg h-full flex justify-between items-center px-1 md:px-3">
                 <span>
                     <span>💡</span>
                     <span className="ml-3">This is an announcement.</span>

@@ -21,9 +21,26 @@ export function Deposit() {
 
     return <div className="w-full p-2">
         <div className="p-2 bg-body">
-            <div className="w-full flex justify-between items-center">
+            <div className="w-full flex justify-between items-center text-sm">
                 <span className="flex items-center">
                     Include leaf <span className="ml-1 hover:opacity-80 cursor-pointer"><HiOutlineInformationCircle /></span>
+                </span>
+
+                <span className="hover:opacity-80 cursor-pointer text-2xl">
+                    <FaToggleOn className="text-btn-success" />
+                    {/* <FaToggleOff /> */}
+                </span>
+            </div>
+        </div>
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        <div className="p-2 bg-body mt-2">
+            <div className="w-full flex justify-between items-center text-sm">
+                <span className="flex items-center">
+                    Split deposit <span className="ml-1 hover:opacity-80 cursor-pointer"><HiOutlineInformationCircle /></span>
                 </span>
 
                 <span className="hover:opacity-80 cursor-pointer text-2xl">

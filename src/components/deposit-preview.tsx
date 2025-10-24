@@ -10,6 +10,7 @@ import { ZeroAddress } from "ethers";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { CgSpinnerAlt } from "react-icons/cg";
+import { GiSplitArrows } from "react-icons/gi";
 
 export function DepositPreview() {
     return <ModalBg>
@@ -81,6 +82,13 @@ export function DepositPreview() {
                     <span>Include leaf</span>
                     <span className="flex items-center">
                         <span><FaLeaf /></span>
+                        <span className="ml-2 text-btn-success">Yes/No</span>
+                    </span>
+                </div>
+                <div className="w-full py-1 flex justify-between items-center text-xs">
+                    <span>Split deposit</span>
+                    <span className="flex items-center">
+                        <span><GiSplitArrows /></span>
                         <span className="ml-2 text-btn-success">Yes/No</span>
                     </span>
                 </div>

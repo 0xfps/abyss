@@ -13,7 +13,8 @@ export default function NavBar() {
             <a href="/">
                 <Icon width={80} height={80} />
             </a>
-            <a href="/docs" className="ml-3 md:ml-5 hover:underline">docs</a>
+            {/* <a href="/docs" className="ml-3 md:ml-5 hover:underline">docs</a> */}
+            <span className="ml-3 md:ml-5 hover:underline">Dev</span>
         </div>
         <div className="flex items-center justify-end w-[50%] h-full">
             {address ? <Address address={address} /> : <ConnectWalletButton />}
