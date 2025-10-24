@@ -70,7 +70,7 @@ export function WithdrawPreview() {
             {/*  */}
             {/*  */}
             <div className="mt-2">
-                <div className="w-full py-1 flex justify-between items-center text-xs">
+                {/* <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Network fee</span>
                     <span className="flex items-center">
                         <span><FaGasPump /></span>
@@ -83,7 +83,7 @@ export function WithdrawPreview() {
                         <span><BsFillLightningChargeFill /></span>
                         <span className="ml-2">$0.00</span>
                     </span>
-                </div>
+                </div> */}
                 <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Contract</span>
                     <span className="flex items-center">

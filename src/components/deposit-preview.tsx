@@ -82,6 +82,13 @@ export function DepositPreview() {
             {/*  */}
             <div className="mt-2">
                 <div className="w-full py-1 flex justify-between items-center text-xs">
+                    <span>Leaf</span>
+                    <span className="flex items-center cursor-pointer hover:underline">
+                        <span className="ml-2">{truncateAddress(ZeroAddress, 5)}</span>
+                        <span className="ml-1"><FaCopy /></span>
+                    </span>
+                </div>
+                <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Include leaf</span>
                     <span className="flex items-center">
                         <span><FaLeaf /></span>
@@ -95,7 +102,7 @@ export function DepositPreview() {
                         <span className="ml-2 text-btn-success">Yes/No</span>
                     </span>
                 </div>
-                <div className="w-full py-1 flex justify-between items-center text-xs">
+                {/* <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Network fee</span>
                     <span className="flex items-center">
                         <span><FaGasPump /></span>
@@ -108,7 +115,7 @@ export function DepositPreview() {
                         <span><BsFillLightningChargeFill /></span>
                         <span className="ml-2">$0.00</span>
                     </span>
-                </div>
+                </div> */}
                 <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Contract</span>
                     <span className="flex items-center">
