@@ -9,6 +9,7 @@ import { SelectAssetModal } from "./select-asset-modal"
 import { SwapPreview } from "./swap-preview"
 import { DepositPreview } from "./deposit-preview"
 import { WithdrawPreview } from "./withdraw-preview"
+import { VersionChangeLog } from "./version-changelog"
 
 export function Modals() {
     const { modal } = useModalStore()
@@ -23,5 +24,6 @@ export function Modals() {
         {modal == "SWAP-PREVIEW" && <SwapPreview />}
         {modal == "DEPOSIT-PREVIEW" && <DepositPreview />}
         {modal == "WITHDRAW-PREVIEW" && <WithdrawPreview />}
+        {modal == "VERSION-CHANGELOG" && <VersionChangeLog />}
     </>
 }

@@ -6,7 +6,9 @@ export type ModalNames = "" |
     "SELECT-ASSET" |
     "DEPOSIT-PREVIEW" |
     "WITHDRAW-PREVIEW" |
-    "SWAP-PREVIEW"
+    "SWAP-PREVIEW" |
+    "DEPOSIT-SUCCESS" |
+    "VERSION-CHANGELOG"
 
 export type ModalStoreType = {
     modal: ModalNames,

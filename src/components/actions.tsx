@@ -15,7 +15,7 @@ export function Actions() {
         } else return `${defaultStyle} hover:bg-modal-bg-hover`
     }
 
-    return <div className="text-sm h-[60px] lg:h-full col-span-6 lg:col-span-4 md:flex md:justify-center">
+    return <div className="text-sm h-fit lg:h-full col-span-6 lg:col-span-4 md:flex md:justify-center">
         <div className="h-full md:w-[75%] lg:w-[50%]">
             <div className="w-full grid grid-cols-3">
                 <div className={`${loadCustomStyle("SWAP")}`} onClick={() => setAction("SWAP")}>

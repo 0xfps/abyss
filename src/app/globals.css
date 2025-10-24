@@ -36,6 +36,10 @@
   animation: spin 500ms ease 0s infinite;
 }
 
+.pulser {
+  animation: pulse 500ms ease 0s infinite;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0);
@@ -43,6 +47,16 @@
 
   to {
     transform: rotate(360);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(0.5)
   }
 }
 
