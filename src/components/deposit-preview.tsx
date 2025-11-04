@@ -95,13 +95,6 @@ export function DepositPreview() {
                         <span className="ml-2 text-btn-success">Yes/No</span>
                     </span>
                 </div>
-                <div className="w-full py-1 flex justify-between items-center text-xs">
-                    <span>Split deposit</span>
-                    <span className="flex items-center">
-                        <span><GiSplitArrows /></span>
-                        <span className="ml-2 text-btn-success">Yes/No</span>
-                    </span>
-                </div>
                 {/* <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Network fee</span>
                     <span className="flex items-center">

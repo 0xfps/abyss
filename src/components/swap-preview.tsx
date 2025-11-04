@@ -12,6 +12,8 @@ import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { CgSpinnerAlt } from "react-icons/cg";
 
 export function SwapPreview() {
+    const destination = "0x344CAd93c2028a95B86b653fbcb4c275BFa50185"
+
     return <ModalBg>
         <div className="w-full p-2">
             <ModalHeader title="Swap preview" />
@@ -76,6 +78,25 @@ export function SwapPreview() {
             {/*  */}
             {/*  */}
             {/*  */}
+            <div className="p-2 bg-body h-[120px] mt-2">
+                <div className="h-[20%]">
+                    Destination
+                </div>
+
+                <div className="h-[60%] flex">
+                    <input className="w-full flex justify-start items-center text-5xl tracking-tight" value={destination} />
+                </div>
+
+                <div className="h-[20%]">
+                    <span className="cursor-pointer hover:opacity-80">[Paste]</span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2">[OK]</span>
+                </div>
+            </div>
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
             <div className="mt-2">
                 {/* <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Network fee</span>
@@ -99,6 +120,16 @@ export function SwapPreview() {
                             <span className="ml-2">{truncateAddress(ZeroAddress, 5)}</span>
                             <span><LuSquareArrowOutUpRight className="ml-1" /></span>
                         </a>
+                    </span>
+                </div>
+                <div className="w-full py-1 flex justify-between items-center text-xs">
+                    <span>Destination</span>
+                    <span className="flex items-center">
+                        <span><IoNewspaperOutline /></span>
+                        <span className="flex items-center cursor-pointer hover:underline">
+                            <span className="ml-2">{truncateAddress(destination, 5)}</span>
+                            <span className="ml-1">[Change]</span>
+                        </span>
                     </span>
                 </div>
             </div>

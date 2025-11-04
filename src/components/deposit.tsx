@@ -37,23 +37,6 @@ export function Deposit() {
         {/*  */}
         {/*  */}
         {/*  */}
-        <div className="p-2 bg-body mt-2">
-            <div className="w-full flex justify-between items-center text-sm">
-                <span className="flex items-center">
-                    Split deposit <span className="ml-1 hover:opacity-80 cursor-pointer"><HiOutlineInformationCircle /></span>
-                </span>
-
-                <span className="hover:opacity-80 cursor-pointer text-2xl">
-                    <FaToggleOn className="text-btn-success" />
-                    {/* <FaToggleOff /> */}
-                </span>
-            </div>
-        </div>
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
         <div className="p-2 bg-body h-[120px] mt-2">
             <div className="h-[20%] flex justify-between">
                 <span>

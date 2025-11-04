@@ -10,8 +10,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@fifteenfigures/attp-config": "^0.0.18",
-    "@fifteenfigures/tiny-merkle-tree": "^0.0.65",
+    "@fifteenfigures/attp-config": "^0.0.19",
+    "@fifteenfigures/tiny-merkle-tree": "^0.0.68",
     "@tanstack/react-query": "^5.90.5",
     "@types/aos": "^3.0.7",
     "@types/comma-number": "^2.1.2",
