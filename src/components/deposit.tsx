@@ -42,8 +42,11 @@ export function Deposit() {
                 <span>
                     You send
                 </span>
-                <span className="cursor-pointer hover:opacity-80">
-                    [Use Max]
+                <span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2">[1]</span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2">[10]</span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2">[100]</span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2">[Use Max]</span>
                 </span>
             </div>
 
