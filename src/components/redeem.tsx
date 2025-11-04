@@ -7,12 +7,10 @@ import { BsFillLightningChargeFill } from "react-icons/bs";
 import { useState } from "react";
 import { useModalStore } from "@/store/modal-store";
 import { getChainImage } from "@/utils/get-chain-image";
-import Skeleton from 'react-loading-skeleton'
-import { Loader } from "./loader";
 
-export function Swap() {
+export function Redeem() {
     const [showUSD, setShowUSD] = useState<boolean>(false)
-    const { setModal } = useModalStore()
+    const { setModal, setPrevModal } = useModalStore()
 
     function toggleShowUSD() {
         setShowUSD(!showUSD)
@@ -36,7 +34,10 @@ export function Swap() {
             <div className="h-[60%] flex">
                 <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" value="25,610.12" />
                 <div className="w-[20%] flex justify-end items-center">
-                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={showSelectAsset}>
+                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={() => {
+                        setPrevModal("GHOST-MODAL")
+                        setModal("SWITCH-CHAIN")
+                    }}>
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
                             loadImage(getChainImage(421614))
@@ -69,7 +70,7 @@ export function Swap() {
                     25,610.12
                 </div>
                 <div className="w-[20%] flex justify-end items-center">
-                    <div className="relative h-full aspect-square p-2">
+                    <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={showSelectAsset}>
                         <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
                         <img src={
                             loadImage(getChainImage(421614))
@@ -104,8 +105,8 @@ export function Swap() {
             </div>
         </div>
         <div className="mt-4">
-            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer" onClick={() => setModal("SWAP-PREVIEW")}>
-                Preview swap
+            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer" onClick={() => setModal("REDEEM-PREVIEW")}>
+                Preview Redemption
             </button>
         </div>
     </div>

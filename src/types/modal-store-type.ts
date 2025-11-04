@@ -7,8 +7,10 @@ export type ModalNames = "" |
     "DEPOSIT-PREVIEW" |
     "WITHDRAW-PREVIEW" |
     "SWAP-PREVIEW" |
+    "REDEEM-PREVIEW" |
     "DEPOSIT-SUCCESS" |
-    "VERSION-CHANGELOG"
+    "VERSION-CHANGELOG" |
+    "GHOST-MODAL"
 
 export type ModalStoreType = {
     modal: ModalNames,

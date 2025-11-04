@@ -34,7 +34,6 @@ export function Withdraw() {
             <div className="h-[20%]">
                 <span className="cursor-pointer hover:opacity-80">[Paste]</span>
                 <span className="cursor-pointer hover:opacity-80 ml-2">[16/16]</span>
-                <span className="cursor-pointer hover:opacity-80 ml-2">[Slot 6]</span>
             </div>
         </div>
 

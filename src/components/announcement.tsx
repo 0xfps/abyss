@@ -17,15 +17,21 @@ export function Announcement() {
 
     return <div className="text-sm h-[60px] lg:h-full col-span-6 lg:col-span-4">
         {
-            // !hasSeenLatestAnnouncement &&
-            <div className="bg-modal-bg h-full flex justify-between items-center px-1 md:px-3">
-                <span>
-                    <span>💡</span>
-                    <span className="ml-3">This is an announcement.</span>
-                </span>
+            !hasSeenLatestAnnouncement ?
+                <div className="bg-modal-bg h-full flex justify-between items-center px-1 md:px-3">
+                    <span>
+                        <span>💡</span>
+                        <span className="ml-3">This is an announcement.</span>
+                    </span>
 
-                <IoClose className="text-xl cursor-pointer hover:opacity-80"/>
-            </div>
+                    <IoClose className="text-xl cursor-pointer hover:opacity-80" onClick={see} />
+                </div>
+                : <div className="bg-modal-bg h-full flex justify-between items-center px-1 md:px-3">
+                    <span>
+                        <span>💡</span>
+                        <span className="ml-3">No new announcements.</span>
+                    </span>
+                </div>
         }
     </div>
 }
