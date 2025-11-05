@@ -9,6 +9,7 @@ import { PollChainIdContext } from "@/providers/poll-chain-id-provider"
 import { useModalStore } from "@/store/modal-store"
 import { ChainIdContext } from "@/providers/chain-id-provider"
 import { ChainArr } from "@/types/chain-array-type"
+import { TokenAndAmountContext } from "@/providers/token-and-amount-provider"
 
 /**
  * This modal is flexible and does two things at once.
@@ -21,6 +22,7 @@ export function SwitchChainModal() {
     const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
     const { chainId, setChainId } = useContext(ChainIdContext)
     const { prevModal, setModal } = useModalStore()
+    const { setTokenToSend } = useContext(TokenAndAmountContext)
     // Is true if the previous modal is empty, meaning it was called from the [SWITCH]
     // to change the poll chain.
     const [calledOnSwitchPollChain,] = useState<boolean>(prevModal == "")
@@ -43,7 +45,13 @@ export function SwitchChainModal() {
     function selectChain(id: number) {
         if (calledOnSwitchPollChain)
             setPollChainId(id)
-        else setChainId(id)
+        else {
+            setChainId(id)
+            const firstTokenAddress = Object.keys(attpConfig.testnetConfig.chainsConfig[id].tokens)[0]
+            const firstToken = attpConfig.testnetConfig.chainsConfig[id].tokens[firstTokenAddress]
+            setTokenToSend(firstToken)
+        }
+
 
         setModal(prevModal)
     }

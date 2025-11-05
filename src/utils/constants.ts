@@ -16,6 +16,7 @@ export const DEFAULT_TOKEN = {
     ...attpConfig.testnetConfig.chainsConfig[DEFAULT_CHAIN_ID].tokens[firstToken]
 }
 export const DEFAULT_NETWORK_FEE = 2.30
+export const V_IMG = v
 export const V_TOKEN: Omit<Token, "address" | "chainId"> = {
     image: v.src,
     name: "V",

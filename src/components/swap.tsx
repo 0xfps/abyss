@@ -78,7 +78,7 @@ export function Swap() {
                 <span>
                     You send
                 </span>
-                <span className="cursor-pointer hover:opacity-80" onClick={() => { if (tokenBalance) setAmountToSend(tokenBalance.toString()) }}>
+                <span className="cursor-pointer hover:opacity-80" onClick={() => { if (tokenBalance !== null) setAmountToSend(tokenBalance.toString()) }}>
                     [Use Max]
                 </span>
             </div>
