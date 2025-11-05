@@ -22,3 +22,4 @@ export const V_TOKEN: Omit<Token, "address" | "chainId"> = {
     name: "V",
     symbol: "V"
 }
+export const DECIMALS = 6

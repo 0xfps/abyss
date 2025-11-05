@@ -18,8 +18,10 @@ import { formatToTwoDecimals } from "@/utils/to-two-decimals";
 import { Loader } from "./loader";
 import { formatNumber } from "@/utils/format-number";
 import { useVBalance } from "@/hooks/use-v-balance";
+import { useAccount } from "wagmi";
 
 export function Redeem() {
+    const { address } = useAccount()
     const { setModal, setPrevModal } = useModalStore()
     const { chainId } = useContext(ChainIdContext)
     const {
@@ -184,7 +186,9 @@ export function Redeem() {
                 onClick={proceedWithRedemption}
                 style={isDisabled() ? { opacity: "50%", cursor: "not-allowed" } : {}}
             >
-                Preview Redemption
+                {
+                    !address ? "Connect wallet" : "Preview Redemption"
+                }
             </button>
         </div>
     </div>

@@ -15,6 +15,7 @@ import { ChainIdProvider } from "./chain-id-provider";
 import { TokenAndAmountProvider } from "./token-and-amount-provider";
 import { SwapProvider } from "./swap-provider";
 import { DepositWithdrawProvider } from "./deposit-withdrawal-provider";
+import { LeavesContextProvider } from "./leaves-provider";
 
 export const GlobalContext = createContext<"">("")
 
@@ -43,8 +44,10 @@ export default function GlobalProvider({ children }: ChildType) {
                                 <TokenAndAmountProvider>
                                     <SwapProvider>
                                         <DepositWithdrawProvider>
-                                            <Modals />
-                                            {children}
+                                            <LeavesContextProvider>
+                                                <Modals />
+                                                {children}
+                                            </LeavesContextProvider>
                                         </DepositWithdrawProvider>
                                     </SwapProvider>
                                 </TokenAndAmountProvider>

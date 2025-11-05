@@ -8,11 +8,11 @@ import { chainIsSupported } from "@/utils/chain-is-supported";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import attpConfig from "@fifteenfigures/attp-config";
 import { ethers, EventLog, InterfaceAbi, JsonRpcProvider, Log } from "ethers"
-import { useLeavesStore } from "@/hooks/use-leaves-store";
 import { BLOCK_CRAWL_INTERVAL, DEPOSIT_EVENT } from "@/utils/constants";
 import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 import { getChainName } from "@/utils/get-chain-name";
 import { useModalStore } from "@/store/modal-store";
+import { LeavesContext } from "@/providers/leaves-provider";
 
 export function Fetcher() {
     const config = useConfig()
@@ -20,7 +20,7 @@ export function Fetcher() {
     const { setModal, setPrevModal } = useModalStore()
     const leafCount = useFetchLeafCount()
     const [width, setWidth] = useState<number>(0)
-    const { setLeaves, pushLeaves } = useLeavesStore()
+    const { setLeaves, pushLeaves } = useContext(LeavesContext)
     const [numberFetched, setNumberFetched] = useState<number>(0)
 
     const ABI: InterfaceAbi = attpConfig.attpAbi as InterfaceAbi

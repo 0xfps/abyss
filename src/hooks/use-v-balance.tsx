@@ -4,6 +4,7 @@ import { useAccount, useConfig } from "wagmi";
 import { readContract } from "@wagmi/core"
 import { erc20Abi } from "viem";
 import { ChainIdContext } from "@/providers/chain-id-provider";
+import { DECIMALS } from "@/utils/constants";
 
 export function useVBalance(): number | null {
     const config = useConfig()
@@ -19,7 +20,6 @@ export function useVBalance(): number | null {
     }, [chainId, userAddress])
 
     async function getTokenBalance() {
-        const decimal = await getDecimal()
         const address = attpConfig.testnetConfig.chainsConfig[chainId].swapperAddress
 
         const balanceOfUser = await readContract(config, {
@@ -31,21 +31,8 @@ export function useVBalance(): number | null {
         })
 
         const balanceBase = Number(balanceOfUser)
-        const balance = parseFloat((balanceBase / (10 ** decimal)).toFixed(2))
+        const balance = parseFloat((balanceBase / (10 ** DECIMALS)).toFixed(2))
         setTokenBalance(balance)
-    }
-
-    async function getDecimal(): Promise<number> {
-        const address = attpConfig.testnetConfig.chainsConfig[chainId].swapperAddress
-
-        const decimals = await readContract(config, {
-            address: address as `0x${string}`,
-            abi: erc20Abi,
-            functionName: "decimals",
-            chainId
-        })
-
-        return Number(decimals)
     }
 
     return tokenBalance

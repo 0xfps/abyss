@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { HermesClient } from "@pythnetwork/hermes-client"
 import { readContract } from "@wagmi/core"
 import { useConfig } from "wagmi";
+import { hexify } from "@fifteenfigures/tiny-merkle-tree";
 
 export function useGetPriceData(token: Token): PriceDataType {
     const config = useConfig()
@@ -66,7 +67,7 @@ export function useGetPriceData(token: Token): PriceDataType {
         const priceFeedId = await getPriceFeedFromContract()
         const updates = await hermesConnection.getLatestPriceUpdates([priceFeedId])
         const hexifiedData = updates.binary.data.map(function (data) {
-            return `0x${data}`
+            return hexify(data)
         })
 
         setUpdateFeeData(hexifiedData)

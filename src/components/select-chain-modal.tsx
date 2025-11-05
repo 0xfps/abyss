@@ -43,16 +43,16 @@ export function SwitchChainModal() {
     }, [])
 
     function selectChain(id: number) {
-        if (calledOnSwitchPollChain)
+        if (calledOnSwitchPollChain) {
             setPollChainId(id)
+        }
         else {
-            setChainId(id)
             const firstTokenAddress = Object.keys(attpConfig.testnetConfig.chainsConfig[id].tokens)[0]
             const firstToken = attpConfig.testnetConfig.chainsConfig[id].tokens[firstTokenAddress]
             setTokenToSend(firstToken)
         }
-
-
+        
+        setChainId(id)
         setModal(prevModal)
     }
 

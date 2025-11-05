@@ -93,3 +93,18 @@ input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
+/* Chrome, Edge, Opera */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-password-toggle-button {
+  display: none !important;
+}
+
+/* For Safari (macOS/iOS) */
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}

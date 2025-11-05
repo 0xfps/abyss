@@ -4,5 +4,5 @@ export function toTwoDecimals(num: number): number {
 
 export function formatToTwoDecimals(num: number): string {
     if (isNaN(num)) return "0"
-    return new Intl.NumberFormat().format(toTwoDecimals(num))
+    return new Intl.NumberFormat().format(num)
 }

@@ -15,8 +15,10 @@ import { formatNumber } from "@/utils/format-number";
 import { useGetPriceData } from "@/hooks/use-get-price-data";
 import { Loader } from "./loader";
 import { formatToTwoDecimals } from "@/utils/to-two-decimals";
+import { useAccount } from "wagmi";
 
 export function Swap() {
+    const { address } = useAccount()
     const { setModal } = useModalStore()
     const {
         tokenToSend,
@@ -174,7 +176,9 @@ export function Swap() {
                 onClick={proceedWithSwap}
                 style={isDisabled() ? { opacity: "50%", cursor: "not-allowed" } : {}}
             >
-                Preview Swap
+                {
+                    !address ? "Connect wallet" : "Preview Swap"
+                }
             </button>
         </div>
     </div>
