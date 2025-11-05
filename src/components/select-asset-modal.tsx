@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { ModalBg } from "./modal-bg";
 import { ModalHeader } from "./modal-header";
 import { ChainIdContext } from "@/providers/chain-id-provider";
@@ -6,13 +6,17 @@ import { useModalStore } from "@/store/modal-store";
 import attpConfig, { Token } from "@fifteenfigures/attp-config";
 import { ChainArr } from "@/types/chain-array-type";
 import { loadImage } from "@/utils/load-image";
+import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
 
 export function SelectAssetModal() {
     const chains = attpConfig.testnetConfig.chains.slice(0, 6)
     const [chainArr, setChainArr] = useState<ChainArr[]>([])
     const { chainId, setChainId } = useContext(ChainIdContext)
+    const [assetStore, setAssetStore] = useState<Token[]>([])
     const [assets, setAssets] = useState<Token[]>([])
     const { setModal, setPrevModal, removeModal } = useModalStore()
+    const { setTokenToSend } = useContext(TokenAndAmountContext)
+    const [search, setSearch] = useState<string>("")
 
     useEffect(function () {
         chains.forEach(function ({ id, name }) {
@@ -26,12 +30,29 @@ export function SelectAssetModal() {
 
     useEffect(function () {
         const assets = Object.values(attpConfig.testnetConfig.chainsConfig[chainId].tokens)
+        setAssetStore(assets)
         setAssets(assets)
     }, [chainId])
 
     function showMoreChains() {
         setPrevModal("SELECT-ASSET")
         setModal("SWITCH-CHAIN")
+    }
+
+    function searchForAsset(e: ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value.toLowerCase()
+        setSearch(value)
+
+        if (!value) {
+            setAssets(assetStore)
+            return
+        }
+
+        const filteredAssets = assetStore.filter(function ({ name, symbol }) {
+            return name.toLowerCase().includes(value) || symbol.toLowerCase().includes(value)
+        })
+
+        setAssets(filteredAssets)
     }
 
     return <ModalBg>
@@ -64,7 +85,13 @@ export function SelectAssetModal() {
             {/*  */}
             {/*  */}
             <div className="p-2">
-                <input type="text" className="w-full bg-body p-2 placeholder:opacity-50 mt-2" value="" placeholder="Search for asset" />
+                <input
+                    type="text"
+                    className="w-full bg-body p-2 placeholder:opacity-50 mt-2"
+                    placeholder="Search for asset"
+                    value={search}
+                    onChange={searchForAsset}
+                />
             </div>
             <div
                 className="mt-2 p-2 grid grid-cols-2 md:grid-cols-3
@@ -79,7 +106,10 @@ export function SelectAssetModal() {
                                         hover:opacity-80  hover:border-modal-btn-hover h-[60px] md:h-[50px]"
                         key={index}
                         style={(index == chainId) ? { border: "1px solid #7E8321" } : {}} // @todo
-                        onClick={() => removeModal()}
+                        onClick={() => {
+                            setTokenToSend(asset)
+                            removeModal()
+                        }}
                     >
                         <img src={loadImage(image)} alt={symbol} className="w-[30px] h-[30px]" />
                         <span className="ml-3">{symbol}</span>

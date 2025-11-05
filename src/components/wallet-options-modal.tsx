@@ -12,7 +12,7 @@ import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 
 export function WalletConnectionOptions() {
     const config = useConfig()
-    const { removeModal } = useModalStore()
+    const { prevModal, setModal } = useModalStore()
     const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
 
     const [hasRabby, setHasRabby] = useState<boolean>(false)
@@ -41,7 +41,7 @@ export function WalletConnectionOptions() {
                 const chainId = connected.chainId
                 if (!pollChainId)
                     setPollChainId(chainId)
-                removeModal()
+                setModal(prevModal)
             }
         } catch { }
     }

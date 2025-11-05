@@ -1,11 +1,12 @@
 import { ChildType } from "@/types/child-type";
-import { TokenAndAmountType, TokenAndDecimal } from "@/types/token-and-amount-type";
+import { TokenAndAmountType } from "@/types/token-and-amount-type";
 import { DEFAULT_TOKEN } from "@/utils/constants";
+import { Token } from "@fifteenfigures/attp-config";
 import { createContext, useState } from "react";
 
 export const TokenAndAmountContext = createContext<TokenAndAmountType>({
     tokenToSend: DEFAULT_TOKEN,
-    amountToSend: 0,
+    amountToSend: "0",
     setTokenToSend: () => { },
     setAmountToSend: () => { },
     tokenToReceive: DEFAULT_TOKEN,
@@ -15,10 +16,10 @@ export const TokenAndAmountContext = createContext<TokenAndAmountType>({
 })
 
 export function TokenAndAmountProvider({ children }: ChildType) {
-    const [tokenToSend, setTokenToSend] = useState<TokenAndDecimal>(DEFAULT_TOKEN)
-    const [amountToSend, setAmountToSend] = useState<number>(0)
+    const [tokenToSend, setTokenToSend] = useState<Token>(DEFAULT_TOKEN)
+    const [amountToSend, setAmountToSend] = useState<string>("0")
 
-    const [tokenToReceive, setTokenToReceive] = useState<TokenAndDecimal>(DEFAULT_TOKEN)
+    const [tokenToReceive, setTokenToReceive] = useState<Token>(DEFAULT_TOKEN)
     const [amountToReceive, setAmountToReceive] = useState<number>(0)
 
     const values = {

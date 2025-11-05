@@ -3,7 +3,7 @@
 import attpConfig from "@fifteenfigures/attp-config"
 import { ModalBg } from "./modal-bg"
 import { ModalHeader } from "./modal-header"
-import { useContext, useEffect, useState } from "react"
+import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { loadImage } from "@/utils/load-image"
 import { PollChainIdContext } from "@/providers/poll-chain-id-provider"
 import { useModalStore } from "@/store/modal-store"
@@ -16,6 +16,7 @@ import { ChainArr } from "@/types/chain-array-type"
  */
 export function SwitchChainModal() {
     const chains = attpConfig.testnetConfig.chains
+    const [chainStore, setChainStore] = useState<ChainArr[]>([])
     const [chainArr, setChainArr] = useState<ChainArr[]>([])
     const { pollChainId, setPollChainId } = useContext(PollChainIdContext)
     const { chainId, setChainId } = useContext(ChainIdContext)
@@ -27,15 +28,16 @@ export function SwitchChainModal() {
     // this will hold the Id of the chain, which can either be the poll chain,
     // if it was from there, or the action chain Id, if it was from there.
     const [alreadySelectedChainId,] = useState<number>(calledOnSwitchPollChain ? pollChainId : chainId)
+    const [search, setSearch] = useState<string>("")
 
     useEffect(function () {
-        chains.forEach(function ({ id, name }) {
+        const chainArr = chains.map(function ({ id, name }) {
             const image = attpConfig.testnetConfig.chainsConfig[id].image as string
-            setChainArr(prev => [
-                ...prev,
-                { name: name.split(" ")[0], image, id }
-            ])
+            return { name: name.split(" ")[0], image, id }
         })
+
+        setChainArr(chainArr)
+        setChainStore(chainArr)
     }, [])
 
     function selectChain(id: number) {
@@ -46,10 +48,32 @@ export function SwitchChainModal() {
         setModal(prevModal)
     }
 
+    function searchForChain(e: ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value.toLowerCase()
+        setSearch(value)
+
+        if (!value) {
+            setChainArr(chainStore)
+            return
+        }
+
+        const filteredChains = chainStore.filter(function ({ name }) {
+            return name.toLowerCase().includes(value)
+        })
+
+        setChainArr(filteredChains)
+    }
+
     return <ModalBg>
         <div>
             <ModalHeader title="Select chain" />
-            <input type="text" className="w-full bg-body p-2 placeholder:opacity-50 mt-2" value="" placeholder="Search for chain" />
+            <input
+                type="text"
+                className="w-full bg-body p-2 placeholder:opacity-50 mt-2"
+                placeholder="Search for chain"
+                value={search}
+                onChange={searchForChain}
+            />
             <div
                 className="mt-2 p-2 grid grid-cols-2 md:grid-cols-3
                 gap-x-2 gap-y-4 overflow-y-scroll max-h-[60vh]

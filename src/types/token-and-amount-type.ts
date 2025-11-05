@@ -8,13 +8,13 @@ type Decimals = {
 export type TokenAndDecimal = Token & Decimals
 
 export type TokenAndAmountType = {
-    tokenToSend: TokenAndDecimal,
-    setTokenToSend: Dispatch<SetStateAction<TokenAndDecimal>>
-    amountToSend: number,
-    setAmountToSend: Dispatch<SetStateAction<number>>
+    tokenToSend: Token,
+    setTokenToSend: Dispatch<SetStateAction<Token>>
+    amountToSend: string,
+    setAmountToSend: Dispatch<SetStateAction<string>>
 
-    tokenToReceive: TokenAndDecimal,
-    setTokenToReceive: Dispatch<SetStateAction<TokenAndDecimal>>
+    tokenToReceive: Token,
+    setTokenToReceive: Dispatch<SetStateAction<Token>>
     amountToReceive: number,
     setAmountToReceive: Dispatch<SetStateAction<number>>
 }

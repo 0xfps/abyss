@@ -4,8 +4,8 @@ import GlobalProvider from "@/providers/global-provider";
 import 'react-loading-skeleton/dist/skeleton.css'
 
 export const metadata: Metadata = {
-  title: "Abyss - Private Money Transfer on EVM Chains.",
-  description: "Private Money Transfer on EVM Chains.",
+  title: "Abyss - Private Money Mixer on EVM Chains.",
+  description: "Private Money Mixer on EVM Chains.",
 };
 
 export default function RootLayout({

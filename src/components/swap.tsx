@@ -1,25 +1,74 @@
 "use client"
 
 import { loadImage } from "@/utils/load-image";
-import attpConfig from "@fifteenfigures/attp-config";
 import { FaGasPump } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
-import { useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useModalStore } from "@/store/modal-store";
 import { getChainImage } from "@/utils/get-chain-image";
-import Skeleton from 'react-loading-skeleton'
+import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
+import { useNetworkFee } from "@/hooks/use-network-fee";
+import { SwapContext } from "@/providers/swap-provider";
+import { useTokenBalance } from "@/hooks/use-token-balance";
+import { V_TOKEN } from "@/utils/constants";
+import { formatNumber } from "@/utils/format-number";
+import { useGetPriceData } from "@/hooks/use-get-price-data";
 import { Loader } from "./loader";
+import { formatToTwoDecimals } from "@/utils/to-two-decimals";
 
 export function Swap() {
-    const [showUSD, setShowUSD] = useState<boolean>(false)
     const { setModal } = useModalStore()
+    const {
+        tokenToSend,
+        amountToSend,
+        amountToReceive,
+        setAmountToReceive,
+        setAmountToSend
+    } = useContext(TokenAndAmountContext)
+
+    const {
+        usdToggle,
+        setUsdToggle,
+    } = useContext(SwapContext)
+
+    const tokenBalance = useTokenBalance(tokenToSend)
+    const { price } = useGetPriceData(tokenToSend)
+    const networkFee = useNetworkFee()
 
     function toggleShowUSD() {
-        setShowUSD(!showUSD)
+        setUsdToggle(!usdToggle)
     }
 
     function showSelectAsset() {
         setModal("SELECT-ASSET")
+    }
+
+    useEffect(function () {
+        if (price) {
+            if (amountToSend)
+                setAmountToReceive(price * parseFloat(amountToSend))
+            else setAmountToReceive(0)
+        }
+    }, [amountToSend, price])
+
+    function inputAmountToSend(e: ChangeEvent<HTMLInputElement>) {
+        const { value } = e.target
+        if (!isNaN(Number(value))) {
+            setAmountToSend(value)
+        }
+    }
+
+    function isDisabled(): boolean {
+        if (!price) return true
+        if (tokenBalance === null) return true
+        if (parseFloat(amountToSend) > tokenBalance) return true
+
+        return false
+    }
+
+    function proceedWithSwap() {
+        if (isDisabled()) return
+        setModal("SWAP-PREVIEW")
     }
 
     return <div className="w-full p-2">
@@ -28,18 +77,23 @@ export function Swap() {
                 <span>
                     You send
                 </span>
-                <span className="cursor-pointer hover:opacity-80">
+                <span className="cursor-pointer hover:opacity-80" onClick={() => { if (tokenBalance) setAmountToSend(tokenBalance.toString()) }}>
                     [Use Max]
                 </span>
             </div>
 
             <div className="h-[60%] flex">
-                <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" value="25,610.12" />
+                <input
+                    type="text"
+                    className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight"
+                    value={amountToSend}
+                    onChange={inputAmountToSend}
+                />
                 <div className="w-[20%] flex justify-end items-center">
                     <div className="relative h-full aspect-square p-2 hover:opacity-80 cursor-pointer" onClick={showSelectAsset}>
-                        <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
+                        <img src={loadImage(tokenToSend.image)} alt="USDC" className="w-full h-full" />
                         <img src={
-                            loadImage(getChainImage(421614))
+                            loadImage(getChainImage(tokenToSend.chainId))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>
@@ -47,10 +101,22 @@ export function Swap() {
 
             <div className="h-[20%] flex justify-between">
                 <span>
-                    $25,609.87
+                    {
+                        price ? `$${formatToTwoDecimals(price * parseFloat(amountToSend))}` : <Loader />
+                    }
                 </span>
                 <span>
-                    Balance <span onClick={toggleShowUSD}>{!showUSD ? "25,610.12" : "$25,609.87"}</span>
+                    {
+                        (tokenBalance !== null && price) ?
+                            <span className="cursor-pointer" onClick={toggleShowUSD}>
+                                Balance <span>
+                                    {!usdToggle
+                                        ? `${formatToTwoDecimals(tokenBalance)}`
+                                        : `$${formatToTwoDecimals(price * tokenBalance)}`
+                                    }</span>
+                            </span>
+                            : <Loader />
+                    }
                 </span>
             </div>
         </div>
@@ -65,21 +131,19 @@ export function Swap() {
             </div>
 
             <div className="h-[60%] flex">
-                <div className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight">
-                    25,610.12
-                </div>
+                <input type="text" className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight" disabled value={formatNumber(amountToReceive)} />
                 <div className="w-[20%] flex justify-end items-center">
                     <div className="relative h-full aspect-square p-2">
-                        <img src={loadImage(attpConfig.USDC_IMG)} alt="USDC" className="w-full h-full" />
+                        <img src={V_TOKEN.image} alt="V" className="w-full h-full" />
                         <img src={
-                            loadImage(getChainImage(421614))
+                            loadImage(getChainImage(tokenToSend.chainId))
                         } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
                     </div>
                 </div>
             </div>
 
             <div className="h-[20%]">
-                $25,609.87
+                {formatNumber(amountToReceive)}
             </div>
         </div>
         {/*  */}
@@ -92,7 +156,7 @@ export function Swap() {
                 <span>Network fee</span>
                 <span className="flex items-center">
                     <span><FaGasPump /></span>
-                    <span className="ml-2">$2.30</span>
+                    <span className="ml-2">${networkFee.toFixed(2)}</span>
                 </span>
             </div>
             <div className="w-full py-1 flex justify-between items-center text-xs">
@@ -104,8 +168,12 @@ export function Swap() {
             </div>
         </div>
         <div className="mt-4">
-            <button className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer" onClick={() => setModal("SWAP-PREVIEW")}>
-                Preview swap
+            <button
+                className="bg-btn-success py-4 w-full text-lg hover:bg-btn-success-hover cursor-pointer"
+                onClick={proceedWithSwap}
+                style={isDisabled() ? { opacity: "50%", cursor: "not-allowed" } : {}}
+            >
+                Preview Swap
             </button>
         </div>
     </div>
