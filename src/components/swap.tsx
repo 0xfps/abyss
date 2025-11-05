@@ -61,6 +61,7 @@ export function Swap() {
     function isDisabled(): boolean {
         if (!price) return true
         if (tokenBalance === null) return true
+        if (!parseFloat(amountToSend)) return true
         if (parseFloat(amountToSend) > tokenBalance) return true
 
         return false
