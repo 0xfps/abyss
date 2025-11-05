@@ -1,6 +1,6 @@
 import { ChildType } from "@/types/child-type";
+import { DEFAULT_CHAIN_ID } from "@/utils/constants";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { arbitrumSepolia } from "viem/chains";
 
 export const ChainIdContext = createContext<{
     chainId: number,
@@ -8,7 +8,7 @@ export const ChainIdContext = createContext<{
 }>({ chainId: 0, setChainId: () => { } })
 
 export function ChainIdProvider({ children }: ChildType) {
-    const [chainId, setChainId] = useState<number>(arbitrumSepolia.id)
+    const [chainId, setChainId] = useState<number>(DEFAULT_CHAIN_ID)
 
     return <ChainIdContext.Provider value={{ chainId, setChainId }}>
         {children}

@@ -12,6 +12,9 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PollChainIdProvider from "./poll-chain-id-provider";
 import { ChainIdProvider } from "./chain-id-provider";
+import { TokenAndAmountProvider } from "./token-and-amount-provider";
+import { SwapProvider } from "./swap-provider";
+import { DepositWithdrawProvider } from "./deposit-withdrawal-provider";
 
 export const GlobalContext = createContext<"">("")
 
@@ -37,8 +40,14 @@ export default function GlobalProvider({ children }: ChildType) {
                     <QueryClientProvider client={queryClient}>
                         <PollChainIdProvider>
                             <ChainIdProvider>
-                                <Modals />
-                                {children}
+                                <TokenAndAmountProvider>
+                                    <SwapProvider>
+                                        <DepositWithdrawProvider>
+                                            <Modals />
+                                            {children}
+                                        </DepositWithdrawProvider>
+                                    </SwapProvider>
+                                </TokenAndAmountProvider>
                             </ChainIdProvider>
                         </PollChainIdProvider>
                     </QueryClientProvider>
