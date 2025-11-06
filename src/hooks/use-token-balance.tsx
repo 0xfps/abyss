@@ -38,7 +38,7 @@ export function useTokenBalance(token: Token): number | null {
         })
 
         const balanceBase = Number(balanceOfUser)
-        const balance = parseFloat((balanceBase / (10 ** decimal)).toFixed(2))
+        const balance = parseFloat((balanceBase / (10 ** decimal)).toFixed(5))
         setTokenBalance(balance)
     }
 
