@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useAccount, useConfig } from "wagmi";
 import { getBalance, readContract } from "@wagmi/core"
 import { erc20Abi } from "viem";
-import { ZeroAddress } from "ethers";
+import { getDecimals } from "@/utils/get-decimals";
+import { isETH } from "@/utils/is-eth";
 
 export function useTokenBalance(token: Token): number | null {
     const config = useConfig()
@@ -18,12 +19,12 @@ export function useTokenBalance(token: Token): number | null {
     }, [token, userAddress])
 
     async function getTokenBalance() {
-        const decimal = await getDecimal()
+        const decimal = await getDecimals(token, config)
         const { address, chainId } = token
 
         let balanceOfUser: bigint
 
-        if (address == ZeroAddress)
+        if (isETH(token))
             balanceOfUser = (await getBalance(config, {
                 address: userAddress as `0x${string}`,
                 chainId
@@ -39,21 +40,6 @@ export function useTokenBalance(token: Token): number | null {
         const balanceBase = Number(balanceOfUser)
         const balance = parseFloat((balanceBase / (10 ** decimal)).toFixed(2))
         setTokenBalance(balance)
-    }
-
-    async function getDecimal(): Promise<number> {
-        const { address, chainId } = token
-
-        if (address == ZeroAddress) return 18
-
-        const decimals = await readContract(config, {
-            address: address as `0x${string}`,
-            abi: erc20Abi,
-            functionName: "decimals",
-            chainId
-        })
-
-        return Number(decimals)
     }
 
     return tokenBalance

@@ -5,13 +5,14 @@ import { HermesClient } from "@pythnetwork/hermes-client"
 import { readContract } from "@wagmi/core"
 import { useConfig } from "wagmi";
 import { hexify } from "@fifteenfigures/tiny-merkle-tree";
+import { isStableCoin } from "@/utils/is-stable-coin";
 
 export function useGetPriceData(token: Token): PriceDataType {
     const config = useConfig()
     const [price, setPrice] = useState<number | null>(null)
     const [updateFeeData, setUpdateFeeData] = useState<string[]>([])
     const hermesConnection = new HermesClient("https://hermes.pyth.network", {})
-    const { oracleRegistryAbi, swapperAbi } = attpConfig
+    const { oracleRegistryAbi } = attpConfig
 
     useEffect(function () {
         getPriceData()
@@ -19,24 +20,6 @@ export function useGetPriceData(token: Token): PriceDataType {
 
     function getOracleRegistryOnTokenChain(): string {
         return attpConfig.testnetConfig.chainsConfig[token.chainId].oracleRegistryAddress
-    }
-
-    function getSwapperRegistryOnTokenChain(): string {
-        return attpConfig.testnetConfig.chainsConfig[token.chainId].swapperAddress
-    }
-
-    async function isStableCoin(): Promise<boolean> {
-        const swapper = getSwapperRegistryOnTokenChain()
-        const { address, chainId } = token
-        const isStable = await readContract(config, {
-            address: swapper as `0x${string}`,
-            abi: swapperAbi,
-            functionName: "chainStables",
-            args: [address],
-            chainId
-        })
-
-        return isStable as boolean
     }
 
     async function getPriceFeedFromContract(): Promise<string> {
@@ -56,7 +39,7 @@ export function useGetPriceData(token: Token): PriceDataType {
     }
 
     async function getPriceData() {
-        const tokenIsStableCoin = await isStableCoin()
+        const tokenIsStableCoin = await isStableCoin(token, config)
 
         if (tokenIsStableCoin) {
             setUpdateFeeData([])
