@@ -13,14 +13,12 @@ import { useAccount, useConfig } from "wagmi";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
 import { useGetPriceData } from "@/hooks/use-get-price-data";
-import { Loader } from "./loader";
 import { V_TOKEN } from "@/utils/constants";
 import { readContract, switchChain, waitForTransactionReceipt, writeContract } from "@wagmi/core"
 import { getChainName } from "@/utils/get-chain-name";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import { erc20Abi } from "viem";
 import { parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash";
-import { getDecimals } from "@/utils/get-decimals";
 import { isETH } from "@/utils/is-eth";
 import { TbTransactionDollar } from "react-icons/tb";
 import { formatNumber } from "@/utils/format-number";
@@ -279,9 +277,9 @@ export function RedeemPreview() {
                     <span>Destination</span>
                     <span className="flex items-center">
                         <span><IoNewspaperOutline /></span>
-                        <span className="flex items-center cursor-pointer hover:underline">
+                        <span className="flex items-center cursor-pointer hover:underline" onClick={() => setOk(false)}>
                             <span className="ml-2">{truncateAddress(destination, 5)}</span>
-                            <span className="ml-1" onClick={() => setOk(false)}>[Change]</span>
+                            <span className="ml-1">[Change]</span>
                         </span>
                     </span>
                 </div>

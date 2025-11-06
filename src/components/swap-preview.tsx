@@ -291,9 +291,9 @@ export function SwapPreview() {
                     <span>Destination</span>
                     <span className="flex items-center">
                         <span><IoNewspaperOutline /></span>
-                        <span className="flex items-center cursor-pointer hover:underline">
+                        <span className="flex items-center cursor-pointer hover:underline" onClick={() => setOk(false)}>
                             <span className="ml-2">{truncateAddress(destination, 5)}</span>
-                            <span className="ml-1" onClick={() => setOk(false)}>[Change]</span>
+                            <span className="ml-1">[Change]</span>
                         </span>
                     </span>
                 </div>
