@@ -5,7 +5,7 @@ import { getChainImage } from "@/utils/get-chain-image";
 import attpConfig from "@fifteenfigures/attp-config";
 import { FaCheck } from "react-icons/fa6";
 import { truncateAddress } from "@/utils/truncate-address";
-import { isAddress } from "ethers";
+import { BigNumberish, isAddress } from "ethers";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { CgSpinnerAlt } from "react-icons/cg";
@@ -14,7 +14,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { switchChain, waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
 import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
-import { generateDepositKey, getLeafFromKey } from "@fifteenfigures/tiny-merkle-tree";
+import TinyMerkleTree, { generateDepositKey, getInputObjects, getLeafFromKey } from "@fifteenfigures/tiny-merkle-tree";
 import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 import { formatNumber } from "@/utils/format-number";
 import { V_TOKEN } from "@/utils/constants";
@@ -22,11 +22,14 @@ import { parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash
 import { TbTransactionDollar } from "react-icons/tb";
 import { getChainName } from "@/utils/get-chain-name";
 import { getChainFromId } from "@/utils/get-chain-from-id";
+import { LeavesContext } from "@/providers/leaves-provider";
+import { groth16 } from "snarkjs";
 
 export function WithdrawPreview() {
     const { address, chainId } = useAccount()
     const config = useConfig()
     const { pollChainId } = useContext(PollChainIdContext)
+    const { leaves } = useContext(LeavesContext)
 
     const {
         amountToSend
@@ -38,9 +41,9 @@ export function WithdrawPreview() {
         withdrawalKey,
     } = useContext(DepositWithdrawContext)
 
-    const [depositKey, setDepositKey] = useState<string>("")
     const [leaf, setLeaf] = useState<string>("")
 
+    const [decimals,] = useState<number>(6)
     const [contractAddress, setContractAddress] = useState<string>("")
     const [ok, setOk] = useState<boolean>(false)
 
@@ -49,19 +52,72 @@ export function WithdrawPreview() {
     const [withdrawing, setWithdrawing] = useState<boolean>(false)
     const [withdrawHash, setWithdrawHash] = useState<string>("")
 
+    const [generatingProof, setGeneratingProof] = useState<"IDLE" | "IN-PROGRESS" | "FAILED" | "DONE">("IDLE")
+    const [root, setRoot] = useState<string>("")
+    const [piA, setPiA] = useState<BigNumberish[]>([])
+    const [piB, setPiB] = useState<BigNumberish[][]>([[]])
+    const [piC, setPiC] = useState<BigNumberish[]>([])
+    const [nullifier, setNullifier] = useState<bigint>(BigInt(0))
+
     const { attpAbi } = attpConfig
 
     useEffect(function () {
         const { attpAddress } = attpConfig.testnetConfig.chainsConfig[pollChainId]
         setContractAddress(attpAddress)
-        getDepositKeyAndLeaf()
+        generateProof()
     }, [])
 
-    function getDepositKeyAndLeaf() {
+    async function generateProof() {
+        setGeneratingProof("IN-PROGRESS")
         const depositKey = generateDepositKey(withdrawalKey, secretKey)
         const leaf = getLeafFromKey(depositKey)
-        setDepositKey(depositKey)
         setLeaf(leaf)
+
+        const tree = new TinyMerkleTree(leaves)
+        const root = tree.root
+
+        try {
+            const inputObjects = getInputObjects(withdrawalKey, leaf, secretKey, tree)
+            const { nullifier } = inputObjects
+
+            const { proof } = await groth16.fullProve(
+                inputObjects as any,
+                "/artifacts/main.wasm",
+                "/artifacts/main2.zkey"
+            )
+
+            if (proof) {
+                const { pi_a, pi_b, pi_c } = proof
+                // pA should be [pi_a[0], pi_a[1]].
+                const piA = [BigInt(pi_a[0]), BigInt(pi_a[1])] as [BigNumberish, BigNumberish]
+
+                // ⚠️ Notice: snarkjs outputs G2 elements transposed compared to Solidity. You must flip them.
+                // pB should be [
+                // [pi_b[0][1], pi_b[0][0]]
+                // [pi_b[1][1], pi_b[1][0]]
+                // ].
+                // Flipped. 
+                const piB = [
+                    [BigInt(pi_b[0][1]), BigInt(pi_b[0][0])],
+                    [BigInt(pi_b[1][1]), BigInt(pi_b[1][0])]
+                ] as [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]]
+
+                // pC should be [pi_c[0], pi_c[1]].
+                const piC = [BigInt(pi_c[0]), BigInt(pi_c[1])] as [BigNumberish, BigNumberish]
+
+                setRoot(root)
+                setNullifier(nullifier)
+                setPiA(piA)
+                setPiB(piB)
+                setPiC(piC)
+
+                setGeneratingProof("DONE")
+            } else {
+                setGeneratingProof("FAILED")
+            }
+        } catch {
+            setGeneratingProof("FAILED")
+        }
     }
 
     function inputDestnation(e: ChangeEvent<HTMLInputElement>) {
@@ -82,7 +138,8 @@ export function WithdrawPreview() {
     function isDisabled() {
         if (!address) return true
         if (!isAddress(destination)) return true
-        if (!depositKey) return true
+        if (!leaf) return true
+        if (["IDLE", "IN-PROGRESS", "FAILED"].includes(generatingProof)) return true
         return false
     }
 
@@ -106,14 +163,24 @@ export function WithdrawPreview() {
     async function withdraw() {
         setWithdrawing(true)
 
-        const params = [{}]
+        const amount = BigInt(parseFloat(amountToSend) * (10 ** decimals))
+        const params = [
+            root,
+            withdrawalKey,
+            piA,
+            piB,
+            piC,
+            nullifier,
+            destination,
+            amount
+        ]
 
         try {
             const hash = await writeContract(config, {
                 address: contractAddress as `0x${string}`,
                 abi: attpAbi,
                 functionName: "withdraw",
-                args: [params],
+                args: [...params],
                 chainId: pollChainId
             })
 
@@ -270,7 +337,11 @@ export function WithdrawPreview() {
                             ? "Connect wallet"
                             : (chainId != pollChainId)
                                 ? `Switch to ${getChainName(getChainFromId(pollChainId, config))}`
-                                : "Withdraw"
+                                : generatingProof == "IDLE" || generatingProof == "IN-PROGRESS"
+                                    ? "Generating proof"
+                                    : generatingProof == "FAILED"
+                                        ? "Proof generation failed"
+                                        : "Withdraw"
                     }
                 </button>
             </div>

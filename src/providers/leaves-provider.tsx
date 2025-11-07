@@ -19,7 +19,6 @@ export function LeavesContextProvider({ children }: ChildType) {
     }
 
     const values = { leaves, setLeaves, pushLeaves }
-    console.log({ leaves })
 
     return <LeavesContext.Provider value={values}>
         {children}

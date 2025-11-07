@@ -49,6 +49,7 @@ export function Withdraw() {
         withdrawalKey,
         secretKey,
         hidden,
+        trigger,
         setHidden,
         setSecretKey,
         setWithdrawalKey
@@ -62,7 +63,7 @@ export function Withdraw() {
         } else {
             setKeyBalance(0)
         }
-    }, [chainId, withdrawalKey])
+    }, [chainId, withdrawalKey, trigger])
 
     async function computeKeyBalance() {
         setKeyBalance(null)
