@@ -32,9 +32,10 @@ export function Withdraw() {
     const [keyBalance, setKeyBalance] = useState<number | null>(null)
     const { leaves } = useContext(LeavesContext)
     const leafCount = useFetchLeafCount()
-    const { setPollChainId } = useContext(PollChainIdContext)
+    const { removePollChainId, setPollChainId } = useContext(PollChainIdContext)
 
     useEffect(function () {
+        removePollChainId()
         setPollChainId(chainId)
     }, [])
 

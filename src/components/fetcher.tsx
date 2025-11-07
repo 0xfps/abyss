@@ -13,6 +13,8 @@ import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 import { getChainName } from "@/utils/get-chain-name";
 import { useModalStore } from "@/store/modal-store";
 import { LeavesContext } from "@/providers/leaves-provider";
+import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
+import { ChainIdContext } from "@/providers/chain-id-provider";
 
 export function Fetcher() {
     const config = useConfig()
@@ -22,6 +24,8 @@ export function Fetcher() {
     const [width, setWidth] = useState<number>(0)
     const { setLeaves, pushLeaves } = useContext(LeavesContext)
     const [numberFetched, setNumberFetched] = useState<number>(0)
+    const { chainId } = useContext(ChainIdContext)
+    const { trigger } = useContext(DepositWithdrawContext)
 
     const ABI: InterfaceAbi = attpConfig.attpAbi as InterfaceAbi
 
@@ -35,6 +39,23 @@ export function Fetcher() {
 
         getLeaves()
     }, [pollChainId])
+
+    // Trigger a refetch if the chain deposited on is the same chain being polled.
+    // A remove of the poll chain and reset of the poll chain to the same
+    // chain doesn't work.
+    useEffect(function () {
+        if (chainId == pollChainId) {
+            setLeaves([])
+            setNumberFetched(0)
+
+            if (!pollChainId || !chainIsSupported(pollChainId, config)) {
+                return
+            }
+    
+            getLeaves()
+        }
+
+    }, [trigger])
 
     async function getLeaves() {
         const provider = getProvider()

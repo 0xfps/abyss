@@ -37,6 +37,7 @@ export function DepositPreview() {
     const {
         includeLeaf,
         secretKey,
+        pullTrigger,
         withdrawalKey,
     } = useContext(DepositWithdrawContext)
 
@@ -178,6 +179,7 @@ export function DepositPreview() {
                 const waiting = await waitForTransactionReceipt(config, { hash })
                 if (waiting) {
                     setDepositHash(hash)
+                    pullTrigger()
                 }
             }
         } catch {

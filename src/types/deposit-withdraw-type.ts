@@ -5,6 +5,8 @@ export type DepositWithdrawType = {
     secretKey: string
     withdrawalKey: string,
     hidden: boolean,
+    trigger: number,
+    pullTrigger: () => void,
     setHidden: Dispatch<SetStateAction<boolean>>
     setSecretKey: Dispatch<SetStateAction<string>>
     setWithdrawalKey: Dispatch<SetStateAction<string>>

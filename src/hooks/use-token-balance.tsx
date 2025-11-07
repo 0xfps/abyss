@@ -1,22 +1,24 @@
 import { Token } from "@fifteenfigures/attp-config";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccount, useConfig } from "wagmi";
 import { getBalance, readContract } from "@wagmi/core"
 import { erc20Abi } from "viem";
 import { getDecimals } from "@/utils/get-decimals";
 import { isETH } from "@/utils/is-eth";
+import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 
 export function useTokenBalance(token: Token): number | null {
     const config = useConfig()
     const { address: userAddress } = useAccount()
     const [tokenBalance, setTokenBalance] = useState<number | null>(null)
+    const { trigger } = useContext(DepositWithdrawContext)
 
     useEffect(function () {
         setTokenBalance(null)
 
         if (userAddress) getTokenBalance()
         else setTokenBalance(0)
-    }, [token, userAddress])
+    }, [token, userAddress, trigger])
 
     async function getTokenBalance() {
         const decimal = await getDecimals(token, config)
