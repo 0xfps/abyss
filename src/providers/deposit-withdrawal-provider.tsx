@@ -22,7 +22,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
     const [hidden, setHidden] = useState<boolean>(true)
     const [secretKey, setSecretKey] = useState<string>("")
     const [withdrawalKey, setWithdrawalKey] = useState<string>("")
-    const [trigger, setTrigger] = useState<number>(111111)
+    const [trigger, setTrigger] = useState<number>(0)
 
     function autogenerateKey() {
         const key = createRandomString()

@@ -44,7 +44,7 @@ export function Fetcher() {
     // A remove of the poll chain and reset of the poll chain to the same
     // chain doesn't work.
     useEffect(function () {
-        if (chainId == pollChainId) {
+        if (trigger && chainId == pollChainId) {
             setLeaves([])
             setNumberFetched(0)
 
