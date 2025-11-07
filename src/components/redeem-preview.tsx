@@ -18,7 +18,7 @@ import { readContract, switchChain, waitForTransactionReceipt, writeContract } f
 import { getChainName } from "@/utils/get-chain-name";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import { erc20Abi } from "viem";
-import { parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash";
+import { parseExplorerLinkForAddress, parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash";
 import { isETH } from "@/utils/is-eth";
 import { TbTransactionDollar } from "react-icons/tb";
 import { formatNumber } from "@/utils/format-number";
@@ -267,7 +267,7 @@ export function RedeemPreview() {
                     <span>Contract</span>
                     <span className="flex items-center">
                         <span><IoNewspaperOutline /></span>
-                        <a href="#" target="_blank" className="flex items-center hover:underline">
+                        <a href={parseExplorerLinkForAddress(contractAddress, tokenToReceive.chainId, config)} target="_blank" className="flex items-center hover:underline">
                             <span className="ml-2">{truncateAddress(contractAddress, 5)}</span>
                             <span><LuSquareArrowOutUpRight className="ml-1" /></span>
                         </a>

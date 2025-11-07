@@ -19,7 +19,7 @@ import { erc20Abi } from "viem";
 import { extractKeyMetadata, generateDepositKey, getLeafFromKey } from "@fifteenfigures/tiny-merkle-tree";
 import { formatNumber } from "@/utils/format-number";
 import { V_TOKEN } from "@/utils/constants";
-import { parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash";
+import { parseExplorerLinkForAddress, parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash";
 import { TbTransactionDollar } from "react-icons/tb";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import { getChainName } from "@/utils/get-chain-name";
@@ -330,7 +330,7 @@ export function DepositPreview() {
                     <span>Contract</span>
                     <span className="flex items-center">
                         <span><IoNewspaperOutline /></span>
-                        <a href="#" target="_blank" className="flex items-center hover:underline">
+                        <a href={parseExplorerLinkForAddress(contractAddress, depositChainId, config)} target="_blank" className="flex items-center hover:underline">
                             <span className="ml-2">{truncateAddress(contractAddress, 5)}</span>
                             <span><LuSquareArrowOutUpRight className="ml-1" /></span>
                         </a>
