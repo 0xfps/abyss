@@ -73,10 +73,10 @@ export function WithdrawPreview() {
         const leaf = getLeafFromKey(depositKey)
         setLeaf(leaf)
 
-        const tree = new TinyMerkleTree(leaves)
-        const root = tree.root
-
         try {
+            const tree = new TinyMerkleTree(leaves)
+            const root = tree.root
+        
             const inputObjects = getInputObjects(withdrawalKey, leaf, secretKey, tree)
             const { nullifier } = inputObjects
 
@@ -335,12 +335,12 @@ export function WithdrawPreview() {
                     {
                         !address
                             ? "Connect wallet"
-                            : (chainId != pollChainId)
-                                ? `Switch to ${getChainName(getChainFromId(pollChainId, config))}`
-                                : generatingProof == "IDLE" || generatingProof == "IN-PROGRESS"
-                                    ? "Generating proof"
-                                    : generatingProof == "FAILED"
-                                        ? "Proof generation failed"
+                            : generatingProof == "IDLE" || generatingProof == "IN-PROGRESS"
+                                ? "Generating proof"
+                                : generatingProof == "FAILED"
+                                    ? "Proof generation failed"
+                                    : (chainId != pollChainId)
+                                        ? `Switch to ${getChainName(getChainFromId(pollChainId, config))}`
                                         : "Withdraw"
                     }
                 </button>

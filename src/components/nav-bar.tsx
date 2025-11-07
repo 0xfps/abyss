@@ -14,7 +14,7 @@ export default function NavBar() {
                 <Icon width={80} height={80} />
             </a>
             {/* <a href="/docs" className="ml-3 md:ml-5 hover:underline">docs</a> */}
-            <span className="ml-3 md:ml-5 hover:underline">Abyss Dev</span>
+            <span className="ml-3 md:ml-5 hover:underline">Abyss [Alpha]</span>
         </div>
         <div className="flex items-center justify-end w-[50%] h-full">
             {address ? <Address address={address} /> : <ConnectWalletButton />}
