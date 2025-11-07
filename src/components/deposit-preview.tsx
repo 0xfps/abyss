@@ -10,7 +10,7 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { useAccount, useConfig } from "wagmi";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, use, useContext, useEffect, useState } from "react";
 import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
 import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 import { ChainIdContext } from "@/providers/chain-id-provider";
@@ -23,6 +23,7 @@ import { parseExplorerLinkFromHash } from "@/utils/parse-explorer-link-from-hash
 import { TbTransactionDollar } from "react-icons/tb";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import { getChainName } from "@/utils/get-chain-name";
+import { MdKey } from "react-icons/md";
 
 export function DepositPreview() {
     const { address, chainId } = useAccount()
@@ -53,9 +54,9 @@ export function DepositPreview() {
     const [depositing, setDepositing] = useState<boolean>(false)
     const [depositHash, setDepositHash] = useState<string>("")
 
-    const [copiedWKey, setCopiedWKey] = useState<boolean>(false)
-    const [copiedSKey, setCopiedSKey] = useState<boolean>(false)
+    const [copiedDetails, setCopiedDetails] = useState<boolean>(false)
     const [copiedLeaf, setCopiedLeaf] = useState<boolean>(false)
+    const [i, setI] = useState<NodeJS.Timeout | null>(null)
 
     const { attpAbi } = attpConfig
 
@@ -71,6 +72,14 @@ export function DepositPreview() {
             setDestinaton(address)
         } else setDestinaton(ZeroAddress)
     }, [address])
+
+    useEffect(function () {
+        if (i) {
+            return function () {
+                clearInterval(i)
+            }
+        }
+    }, [i])
 
     function getDepositKeyAndLeaf() {
         const depositKey = generateDepositKey(withdrawalKey, secretKey)
@@ -176,29 +185,34 @@ export function DepositPreview() {
         } finally { }
     }
 
-    async function copyWithdrawalKey() {
+    async function copyDetails() {
         await navigator.clipboard.writeText(JSON.stringify({
             withdrawalKey,
             secretKey,
-            includeLeaf
+            leaf,
+            includeLeaf,
+            chain: getChainName(getChainFromId(depositChainId, config)),
+            chainId: depositChainId
         }))
 
-        setCopiedWKey(true)
-    }
+        setCopiedDetails(true)
 
-    async function copySecretKey() {
-        await navigator.clipboard.writeText(JSON.stringify({
-            withdrawalKey,
-            secretKey,
-            includeLeaf
-        }))
+        const i = setInterval(function () {
+            setCopiedDetails(false)
+        }, 2_000)
 
-        setCopiedSKey(true)
+        setI(i)
     }
 
     async function copyLeaf() {
         await navigator.clipboard.writeText(leaf)
         setCopiedLeaf(true)
+
+        const i = setInterval(function () {
+            setCopiedLeaf(false)
+        }, 2_000)
+
+        setI(i)
     }
 
     return <ModalBg>
@@ -399,16 +413,23 @@ export function DepositPreview() {
                         </div>
                         <div className="w-full py-1 flex justify-between items-center text-xs">
                             <span>Withdrawal Key</span>
-                            <span className="flex items-center cursor-pointer hover:opacity-80" onClick={copyWithdrawalKey}>
-                                <span>{truncateAddress(withdrawalKey, 7)}</span>
-                                <span className="ml-1">{copiedWKey ? <FaCheck /> : <FaCopy />}</span>
+                            <span className="flex items-center cursor-pointer hover:opacity-80">
+                                <span><MdKey /></span>
+                                <span className="ml-1">{truncateAddress(withdrawalKey, 7)}</span>
                             </span>
                         </div>
                         <div className="w-full py-1 flex justify-between items-center text-xs">
                             <span>Secret key</span>
-                            <span className="flex items-center cursor-pointer hover:opacity-80" onClick={copySecretKey}>
-                                <span>{truncateAddress(secretKey, 4)}</span>
-                                <span className="ml-1">{copiedSKey ? <FaCheck /> : <FaCopy />}</span>
+                            <span className="flex items-center cursor-pointer hover:opacity-80">
+                                <span><MdKey /></span>
+                                <span className="ml-1">{truncateAddress(secretKey, 4)}</span>
+                            </span>
+                        </div>
+                        <div className="w-full py-1 flex justify-between items-center text-xs">
+                            <span>Deposit details</span>
+                            <span className="flex items-center cursor-pointer hover:opacity-80" onClick={copyDetails}>
+                                <span>Copy details [important]</span>
+                                <span className="ml-1">{copiedDetails ? <FaCheck /> : <FaCopy />}</span>
                             </span>
                         </div>
                     </>
