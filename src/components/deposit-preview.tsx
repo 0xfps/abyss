@@ -5,12 +5,11 @@ import { getChainImage } from "@/utils/get-chain-image";
 import attpConfig from "@fifteenfigures/attp-config";
 import { FaCheck, FaCopy, FaLeaf } from "react-icons/fa6";
 import { truncateAddress } from "@/utils/truncate-address";
-import { isAddress, ZeroAddress } from "ethers";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuSquareArrowOutUpRight } from "react-icons/lu";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { useAccount, useConfig } from "wagmi";
-import { ChangeEvent, use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TokenAndAmountContext } from "@/providers/token-and-amount-provider";
 import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 import { ChainIdContext } from "@/providers/chain-id-provider";
@@ -35,7 +34,6 @@ export function DepositPreview() {
     } = useContext(TokenAndAmountContext)
 
     const {
-        includeLeaf,
         secretKey,
         pullTrigger,
         withdrawalKey,
@@ -46,9 +44,7 @@ export function DepositPreview() {
     const [leaf, setLeaf] = useState<string>("")
 
     const [contractAddress, setContractAddress] = useState<string>("")
-    const [ok, setOk] = useState<boolean>(false)
 
-    const [destination, setDestinaton] = useState<string>("")
     const [approving, setApproving] = useState<boolean>(false)
     const [approvalHash, setApprovalHash] = useState<string>("")
 
@@ -69,12 +65,6 @@ export function DepositPreview() {
     }, [])
 
     useEffect(function () {
-        if (!includeLeaf && address) {
-            setDestinaton(address)
-        } else setDestinaton(ZeroAddress)
-    }, [address])
-
-    useEffect(function () {
         if (i) {
             return function () {
                 clearInterval(i)
@@ -89,24 +79,8 @@ export function DepositPreview() {
         setLeaf(leaf)
     }
 
-    function inputDestnation(e: ChangeEvent<HTMLInputElement>) {
-        setDestinaton(e.target.value)
-    }
-
-    async function pasteAddress() {
-        const clipboardContent = await navigator.clipboard.readText()
-        setDestinaton(clipboardContent)
-    }
-
-    function changeDestination() {
-        if (isAddress(destination)) {
-            setOk(true)
-        }
-    }
-
     function isDisabled() {
         if (!address) return true
-        if (!isAddress(destination)) return true
         if (!depositKey) return true
         return false
     }
@@ -120,9 +94,6 @@ export function DepositPreview() {
     async function processDeposit() {
         if (isDisabled()) return
         if (approving) return
-
-        if (!includeLeaf)
-            setOk(true)
 
         if (chainId != depositChainId) {
             await switchChainToId()
@@ -160,18 +131,12 @@ export function DepositPreview() {
     async function deposit() {
         setDepositing(true)
 
-        const params = [{
-            depositKey,
-            includeLeaf,
-            recipient: destination
-        }]
-
         try {
             const hash = await writeContract(config, {
                 address: contractAddress as `0x${string}`,
                 abi: attpAbi,
                 functionName: "deposit",
-                args: [params],
+                args: [[depositKey]],
                 chainId: depositChainId
             })
 
@@ -192,7 +157,6 @@ export function DepositPreview() {
             withdrawalKey,
             secretKey,
             leaf,
-            includeLeaf,
             chain: getChainName(getChainFromId(depositChainId, config)),
             chainId: depositChainId
         }))
@@ -253,64 +217,6 @@ export function DepositPreview() {
             {/*  */}
             {/*  */}
             {/*  */}
-            {
-                !includeLeaf &&
-                <div className="p-2 bg-body h-[120px] mt-2">
-                    <div className="h-[20%]">
-                        You receive
-                    </div>
-
-                    <div className="h-[60%] flex">
-                        <div className="w-[80%] flex justify-start items-center font-klartext-bold text-5xl tracking-tight">
-                            {formatNumber(parseFloat(amountToSend))}
-                        </div>
-                        <div className="w-[20%] flex justify-end items-center">
-                            <div className="relative h-full aspect-square p-2">
-                                <img src={V_TOKEN.image} alt="USDC" className="w-full h-full" />
-                                <img src={
-                                    loadImage(getChainImage(depositChainId))
-                                } alt="USDC" className="w-[20px] h-[20px] absolute right-1 bottom-1" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="h-[20%]">
-                        ${formatNumber(parseFloat(amountToSend))}
-                    </div>
-                </div>
-            }
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {
-                (!includeLeaf && !ok) &&
-                <div className="p-2 bg-body h-[120px] mt-2">
-                    <div className="h-[20%]">
-                        Destination
-                    </div>
-
-                    <div className="h-[60%] flex">
-                        <input
-                            type="text"
-                            className="w-full flex justify-start items-center text-5xl tracking-tight"
-                            value={destination}
-                            onChange={inputDestnation}
-                        />
-                    </div>
-
-                    <div className="h-[20%]">
-                        <span className="cursor-pointer hover:opacity-80" onClick={pasteAddress}>[Paste]</span>
-                        <span className="cursor-pointer hover:opacity-80 ml-2" onClick={changeDestination}>[OK]</span>
-                    </div>
-                </div>
-            }
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
             <div className="mt-2">
                 <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Leaf</span>
@@ -323,7 +229,7 @@ export function DepositPreview() {
                     <span>Include leaf</span>
                     <span className="flex items-center">
                         <span><FaLeaf /></span>
-                        <span className="ml-2 text-btn-success">{includeLeaf ? "Yes" : "No"}</span>
+                        <span className="ml-2 text-btn-success">Yes</span>
                     </span>
                 </div>
                 <div className="w-full py-1 flex justify-between items-center text-xs">
@@ -336,19 +242,6 @@ export function DepositPreview() {
                         </a>
                     </span>
                 </div>
-                {
-                    (!includeLeaf) &&
-                    <div className="w-full py-1 flex justify-between items-center text-xs">
-                        <span>Destination</span>
-                        <span className="flex items-center">
-                            <span><IoNewspaperOutline /></span>
-                            <span className="flex items-center cursor-pointer hover:underline" onClick={() => setOk(false)}>
-                                <span className="ml-2">{truncateAddress(destination, 5)}</span>
-                                <span className="ml-1">[Change]</span>
-                            </span>
-                        </span>
-                    </div>
-                }
             </div>
             {/*  */}
             {/*  */}

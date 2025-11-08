@@ -7,7 +7,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { getChainImage } from "@/utils/get-chain-image";
 import { useModalStore } from "@/store/modal-store";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
-import { FaToggleOn, FaToggleOff } from "react-icons/fa6";
+import { FaToggleOn } from "react-icons/fa6";
 import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 import { ChainIdContext } from "@/providers/chain-id-provider";
 import { DECIMALS, V_TOKEN } from "@/utils/constants";
@@ -33,11 +33,9 @@ export function Deposit() {
     } = useContext(TokenAndAmountContext)
 
     const {
-        includeLeaf,
         secretKey,
         hidden,
         setHidden,
-        setIncludeLeaf,
         setSecretKey,
         setWithdrawalKey,
         autogenerateKey
@@ -50,10 +48,6 @@ export function Deposit() {
 
     function toggleShowUSD() {
         setShowUSD(!showUSD)
-    }
-
-    function toggleIncludeLeaf() {
-        setIncludeLeaf(!includeLeaf)
     }
 
     function toggleHide() {
@@ -104,8 +98,8 @@ export function Deposit() {
                     Include leaf <span className="ml-1 hover:opacity-80 cursor-pointer"><HiOutlineInformationCircle /></span>
                 </span>
 
-                <span className="hover:opacity-80 cursor-pointer text-2xl" onClick={toggleIncludeLeaf}>
-                    {includeLeaf ? <FaToggleOn className="text-btn-success" /> : <FaToggleOff />}
+                <span className="hover:opacity-80 cursor-pointer text-2xl">
+                    <FaToggleOn className="text-btn-success" />
                 </span>
             </div>
         </div>
