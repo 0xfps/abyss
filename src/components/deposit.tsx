@@ -38,6 +38,7 @@ export function Deposit() {
         setHidden,
         setSecretKey,
         setWithdrawalKey,
+        setWithdrawalKeys,
         autogenerateKey
     } = useContext(DepositWithdrawContext)
     const networkFee = useNetworkFee()
@@ -87,6 +88,8 @@ export function Deposit() {
 
         const { withdrawalKey } = generateKeys(amountToDeposit, secretKey)
         setWithdrawalKey(withdrawalKey)
+        // Later work. @todo
+        setWithdrawalKeys([withdrawalKey])
 
         setModal("DEPOSIT-PREVIEW")
     }
@@ -117,6 +120,7 @@ export function Deposit() {
                     <span className="cursor-pointer hover:opacity-80 ml-2" onClick={() => setAmountToSend("1")}>[1]</span>
                     <span className="cursor-pointer hover:opacity-80 ml-2" onClick={() => setAmountToSend("10")}>[10]</span>
                     <span className="cursor-pointer hover:opacity-80 ml-2" onClick={() => setAmountToSend("100")}>[100]</span>
+                    <span className="cursor-pointer hover:opacity-80 ml-2" onClick={() => setAmountToSend("1000")}>[1000]</span>
                     <span
                         className="cursor-pointer hover:opacity-80 ml-2"
                         onClick={() => { if (vBalance !== null) setAmountToSend(vBalance.toString()) }}

@@ -23,6 +23,7 @@ import { isETH } from "@/utils/is-eth";
 import { TbTransactionDollar } from "react-icons/tb";
 import { formatNumber } from "@/utils/format-number";
 import { formatToTwoDecimals } from "@/utils/to-two-decimals";
+import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 
 export function RedeemPreview() {
     const { address, chainId } = useAccount()
@@ -32,12 +33,14 @@ export function RedeemPreview() {
         amountToSend,
         amountToReceive
     } = useContext(TokenAndAmountContext)
+    const { pullTrigger } = useContext(DepositWithdrawContext)
+
     const [destination, setDestinaton] = useState<string>("")
     const { updateFeeData } = useGetPriceData(tokenToReceive)
     const [ok, setOk] = useState<boolean>(false)
 
     const [contractAddress, setContractAddress] = useState<string>("")
-    const [decimals, ] = useState<number>(6)
+    const [decimals,] = useState<number>(6)
     const [updateFee, setUpdateFee] = useState<number>(20) // 20 wei as default unless changed.
 
     const [approving, setApproving] = useState<boolean>(false)
@@ -164,9 +167,12 @@ export function RedeemPreview() {
                 const waiting = await waitForTransactionReceipt(config, { hash })
                 if (waiting) {
                     setSwapHash(hash)
+                    pullTrigger()
                 }
             }
         } catch {
+            setApproving(false)
+            setApprovalHash("")
             setSwapping(false)
         } finally { }
     }

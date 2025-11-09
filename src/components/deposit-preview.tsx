@@ -37,11 +37,13 @@ export function DepositPreview() {
         secretKey,
         pullTrigger,
         withdrawalKey,
+        withdrawalKeys,
+        setWithdrawalKey
     } = useContext(DepositWithdrawContext)
 
     const [vTokenAddress, setVTokenAddress] = useState<string>("")
-    const [depositKey, setDepositKey] = useState<string>("")
-    const [leaf, setLeaf] = useState<string>("")
+    const [depositKeys, setDepositKeys] = useState<string[]>([])
+    const [leaves, setLeaves] = useState<string[]>([])
 
     const [contractAddress, setContractAddress] = useState<string>("")
 
@@ -52,7 +54,7 @@ export function DepositPreview() {
     const [depositHash, setDepositHash] = useState<string>("")
 
     const [copiedDetails, setCopiedDetails] = useState<boolean>(false)
-    const [copiedLeaf, setCopiedLeaf] = useState<boolean>(false)
+    const [copiedLeaves, setCopiedLeaves] = useState<boolean>(false)
     const [i, setI] = useState<NodeJS.Timeout | null>(null)
 
     const { attpAbi } = attpConfig
@@ -61,7 +63,7 @@ export function DepositPreview() {
         const { attpAddress, swapperAddress } = attpConfig.testnetConfig.chainsConfig[depositChainId]
         setContractAddress(attpAddress)
         setVTokenAddress(swapperAddress)
-        getDepositKeyAndLeaf()
+        getDepositKeysAndLeaf()
     }, [])
 
     useEffect(function () {
@@ -72,16 +74,23 @@ export function DepositPreview() {
         }
     }, [i])
 
-    function getDepositKeyAndLeaf() {
-        const depositKey = generateDepositKey(withdrawalKey, secretKey)
-        const leaf = getLeafFromKey(depositKey)
-        setDepositKey(depositKey)
-        setLeaf(leaf)
+    function getDepositKeysAndLeaf() {
+        const depositKeys = withdrawalKeys.map(function (withdrawalKey: string) {
+            return generateDepositKey(withdrawalKey, secretKey)
+        })
+
+        const leaves = depositKeys.map(function (depositKey: string) {
+            return getLeafFromKey(depositKey)
+        })
+
+        setDepositKeys(depositKeys)
+        setLeaves(leaves)
     }
 
     function isDisabled() {
         if (!address) return true
-        if (!depositKey) return true
+        if (!depositKeys.length) return true
+        if (!leaves.length) return true
         return false
     }
 
@@ -136,7 +145,7 @@ export function DepositPreview() {
                 address: contractAddress as `0x${string}`,
                 abi: attpAbi,
                 functionName: "deposit",
-                args: [[depositKey]],
+                args: [depositKeys],
                 chainId: depositChainId
             })
 
@@ -145,21 +154,25 @@ export function DepositPreview() {
                 if (waiting) {
                     setDepositHash(hash)
                     pullTrigger()
+                    promptDownload()
+                    setWithdrawalKey("")
                 }
             }
         } catch {
+            setApproving(false)
+            setApprovalHash("")
             setDepositing(false)
         } finally { }
     }
 
     async function copyDetails() {
         await navigator.clipboard.writeText(JSON.stringify({
-            withdrawalKey,
+            withdrawalKeys,
             secretKey,
-            leaf,
+            leaves,
             chain: getChainName(getChainFromId(depositChainId, config)),
             chainId: depositChainId
-        }))
+        }, null, 2))
 
         setCopiedDetails(true)
 
@@ -170,15 +183,46 @@ export function DepositPreview() {
         setI(i)
     }
 
-    async function copyLeaf() {
-        await navigator.clipboard.writeText(leaf)
-        setCopiedLeaf(true)
+    async function copyLeaves() {
+        await navigator.clipboard.writeText(JSON.stringify({ leaves }))
+        setCopiedLeaves(true)
 
         const i = setInterval(function () {
-            setCopiedLeaf(false)
+            setCopiedLeaves(false)
         }, 2_000)
 
         setI(i)
+    }
+
+    function promptDownload() {
+        const date = new Date()
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
+
+        const dateInTimeString = date.toTimeString()
+        const time = dateInTimeString.split(" ")[0]
+
+        const dateString = `${day}-${month}-${year}`
+        const timeString = `${dateString}-${time}`
+
+        const fileName = `deposit-data-${timeString}.txt`
+        const fileContents = JSON.stringify({
+            date: `${timeString} [UK Format]`,
+            parentWithdrawalKey: `${withdrawalKey} This was used to generate the others. Don't use this.`,
+            withdrawalKeys,
+            secretKey,
+            leaves,
+            chainId: depositChainId,
+            chain: getChainName(getChainFromId(depositChainId, config))
+        }, null, 2)
+
+        const element = document.createElement("a");
+        element.setAttribute("href", "data:text/plain;charset=utf-8," + fileContents)
+        element.setAttribute("download", fileName)
+        element.style.display = "none"
+
+        element.click()
     }
 
     return <ModalBg>
@@ -220,9 +264,13 @@ export function DepositPreview() {
             <div className="mt-2">
                 <div className="w-full py-1 flex justify-between items-center text-xs">
                     <span>Leaf</span>
-                    <span className="flex items-center cursor-pointer hover:underline" onClick={copyLeaf}>
-                        <span className="ml-2">{truncateAddress(leaf, 5)}</span>
-                        <span className="ml-1">{copiedLeaf ? <FaCheck /> : <FaCopy />}</span>
+                    <span className="flex items-center cursor-pointer hover:underline" onClick={copyLeaves}>
+                        <span className="ml-2">{leaves.length && truncateAddress(leaves[0], 5)}
+                            {
+                                (leaves.length > 1) && `${leaves.length - 1}`
+                            }
+                        </span>
+                        <span className="ml-1">{copiedLeaves ? <FaCheck /> : <FaCopy />}</span>
                     </span>
                 </div>
                 <div className="w-full py-1 flex justify-between items-center text-xs">
@@ -310,7 +358,12 @@ export function DepositPreview() {
                             <span>Withdrawal Key</span>
                             <span className="flex items-center cursor-pointer hover:opacity-80">
                                 <span><MdKey /></span>
-                                <span className="ml-1">{truncateAddress(withdrawalKey, 7)}</span>
+                                <span className="ml-1">
+                                    {withdrawalKeys.length && truncateAddress(withdrawalKeys[0], 7)}
+                                    {
+                                        (withdrawalKeys.length > 1) && `${withdrawalKeys.length - 1}`
+                                    }
+                                </span>
                             </span>
                         </div>
                         <div className="w-full py-1 flex justify-between items-center text-xs">

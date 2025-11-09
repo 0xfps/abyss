@@ -25,6 +25,7 @@ import { parseExplorerLinkForAddress, parseExplorerLinkFromHash } from "@/utils/
 import { getDecimals } from "@/utils/get-decimals";
 import { isETH } from "@/utils/is-eth";
 import { TbTransactionDollar } from "react-icons/tb";
+import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 
 export function SwapPreview() {
     const { address, chainId } = useAccount()
@@ -34,6 +35,7 @@ export function SwapPreview() {
         amountToSend,
         amountToReceive
     } = useContext(TokenAndAmountContext)
+    const { pullTrigger} = useContext(DepositWithdrawContext)
     const [destination, setDestinaton] = useState<string>("")
     const { price, updateFeeData } = useGetPriceData(tokenToSend)
     const [ok, setOk] = useState<boolean>(false)
@@ -175,9 +177,12 @@ export function SwapPreview() {
                 const waiting = await waitForTransactionReceipt(config, { hash })
                 if (waiting) {
                     setSwapHash(hash)
+                    pullTrigger()
                 }
             }
         } catch {
+            setApproving(false)
+            setApprovalHash("")
             setSwapping(false)
         } finally { }
     }

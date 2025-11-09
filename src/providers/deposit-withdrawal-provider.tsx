@@ -7,12 +7,14 @@ export const DepositWithdrawContext = createContext<DepositWithdrawType>({
     includeLeaf: true,
     secretKey: "",
     withdrawalKey: "",
+    withdrawalKeys: [],
     hidden: true,
     trigger: 0,
     pullTrigger: () => { },
     setHidden: () => { },
     setSecretKey: () => { },
     setWithdrawalKey: () => { },
+    setWithdrawalKeys: () => { },
     setIncludeLeaf: () => { },
     autogenerateKey: () => { }
 })
@@ -22,6 +24,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
     const [hidden, setHidden] = useState<boolean>(true)
     const [secretKey, setSecretKey] = useState<string>("")
     const [withdrawalKey, setWithdrawalKey] = useState<string>("")
+    const [withdrawalKeys, setWithdrawalKeys] = useState<string[]>([])
     const [trigger, setTrigger] = useState<number>(0)
 
     function autogenerateKey() {
@@ -38,6 +41,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
         includeLeaf,
         secretKey,
         withdrawalKey,
+        withdrawalKeys,
         hidden,
         trigger,
         pullTrigger,
@@ -45,6 +49,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
         setIncludeLeaf,
         setSecretKey,
         setWithdrawalKey,
+        setWithdrawalKeys,
         autogenerateKey
     }
 
