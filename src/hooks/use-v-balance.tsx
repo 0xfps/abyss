@@ -33,7 +33,7 @@ export function useVBalance(): number | null {
         })
 
         const balanceBase = Number(balanceOfUser)
-        const balance = parseFloat((balanceBase / (10 ** DECIMALS)).toFixed(2))
+        const balance = parseFloat((balanceBase / (10 ** DECIMALS)).toFixed(5))
         setTokenBalance(balance)
     }
 

@@ -8,7 +8,7 @@ import { chainIsSupported } from "@/utils/chain-is-supported";
 import { getChainFromId } from "@/utils/get-chain-from-id";
 import attpConfig from "@fifteenfigures/attp-config";
 import { ethers, EventLog, InterfaceAbi, JsonRpcProvider, Log } from "ethers"
-import { BLOCK_CRAWL_INTERVAL, DEPOSIT_EVENT } from "@/utils/constants";
+import { BLOCK_CRAWL_INTERVAL, DEFAULT_BLOCK_CRAWL_INTERVAL, DEPOSIT_EVENT } from "@/utils/constants";
 import { PollChainIdContext } from "@/providers/poll-chain-id-provider";
 import { getChainName } from "@/utils/get-chain-name";
 import { useModalStore } from "@/store/modal-store";
@@ -70,7 +70,8 @@ export function Fetcher() {
         let startBlockNumber = Number(blockNumber)
 
         while (startBlockNumber < currentBlockNumber) {
-            const stopBlockNumber = startBlockNumber + BLOCK_CRAWL_INTERVAL
+            const INTERVAL = BLOCK_CRAWL_INTERVAL[pollChainId] || DEFAULT_BLOCK_CRAWL_INTERVAL
+            const stopBlockNumber = startBlockNumber + INTERVAL
             const filters = await main.queryFilter(
                 DEPOSIT_EVENT, startBlockNumber, stopBlockNumber
             )

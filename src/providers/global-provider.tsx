@@ -16,6 +16,7 @@ import { TokenAndAmountProvider } from "./token-and-amount-provider";
 import { SwapProvider } from "./swap-provider";
 import { DepositWithdrawProvider } from "./deposit-withdrawal-provider";
 import { LeavesContextProvider } from "./leaves-provider";
+import { getRPC } from "@/server/get-rpc";
 
 export const GlobalContext = createContext<"">("")
 
@@ -30,7 +31,8 @@ export default function GlobalProvider({ children }: ChildType) {
 
     async function loadProjectId() {
         const projectId = await getProjectId()
-        const wagmiConfig = createWagmiConfig(projectId)
+        const rpc = await getRPC()
+        const wagmiConfig = createWagmiConfig(projectId, rpc)
         setConfig(wagmiConfig)
     }
 

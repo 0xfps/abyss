@@ -3,8 +3,9 @@ import { baseAccount, gemini, injected, metaMask, porto, safe, walletConnect } f
 import { arbitrumSepolia, avalancheFuji, baseSepolia, bscTestnet, optimismSepolia, sepolia } from "wagmi/chains"
 import attpConfig from "@fifteenfigures/attp-config";
 
-export default function createWagmiConfig(projectId: string | undefined): Config {
+export default function createWagmiConfig(projectId: string | undefined, rpc: string | undefined): Config {
     if (!projectId) throw new Error("No Project Id Set!")
+    if (!rpc) throw new Error("No RPC Defined!")
 
     const config = createConfig({
         chains: attpConfig.testnetConfig.chains as any,
@@ -26,12 +27,12 @@ export default function createWagmiConfig(projectId: string | undefined): Config
             })
         ],
         transports: {
-            [arbitrumSepolia.id]: http(),
-            [avalancheFuji.id]: http(),
-            [baseSepolia.id]: http(),
-            [bscTestnet.id]: http(),
-            [optimismSepolia.id]: http(),
-            [sepolia.id]: http()
+            [arbitrumSepolia.id]: http(`https://arb-sepolia.g.alchemy.com/v2/${rpc}`),
+            [avalancheFuji.id]: http(`https://avax-fuji.g.alchemy.com/v2/${rpc}`),
+            [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${rpc}`),
+            [bscTestnet.id]: http(`https://bnb-testnet.g.alchemy.com/v2/${rpc}`),
+            [optimismSepolia.id]: http(`https://opt-sepolia.g.alchemy.com/v2/${rpc}`),
+            [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${rpc}`)
         }
     })
 
