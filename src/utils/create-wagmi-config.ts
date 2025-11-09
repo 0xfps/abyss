@@ -27,12 +27,19 @@ export default function createWagmiConfig(projectId: string | undefined, rpc: st
             })
         ],
         transports: {
-            [arbitrumSepolia.id]: http(`https://arb-sepolia.g.alchemy.com/v2/${rpc}`),
-            [avalancheFuji.id]: http(`https://avax-fuji.g.alchemy.com/v2/${rpc}`),
-            [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${rpc}`),
-            [bscTestnet.id]: http(`https://bnb-testnet.g.alchemy.com/v2/${rpc}`),
-            [optimismSepolia.id]: http(`https://opt-sepolia.g.alchemy.com/v2/${rpc}`),
-            [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${rpc}`)
+            // Create a new Alchemy Account to use new Alchemy RPCs.
+            // [arbitrumSepolia.id]: http(`https://arb-sepolia.g.alchemy.com/v2/${rpc}`),
+            // [avalancheFuji.id]: http(`https://avax-fuji.g.alchemy.com/v2/${rpc}`),
+            // [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${rpc}`),
+            // [bscTestnet.id]: http(`https://bnb-testnet.g.alchemy.com/v2/${rpc}`),
+            // [optimismSepolia.id]: http(`https://opt-sepolia.g.alchemy.com/v2/${rpc}`),
+            // [sepolia.id]: http(`https://eth-sepolia.g.alchemy.com/v2/${rpc}`)
+            [arbitrumSepolia.id]: http(),
+            [avalancheFuji.id]: http(),
+            [baseSepolia.id]: http(),
+            [bscTestnet.id]: http(),
+            [optimismSepolia.id]: http(),
+            [sepolia.id]: http()
         }
     })
 
