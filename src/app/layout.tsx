@@ -1,0 +1,31 @@
+import type { Metadata } from "next";
+import "./globals.css";
+import GlobalProvider from "@/providers/global-provider";
+import 'react-loading-skeleton/dist/skeleton.css'
+
+export const metadata: Metadata = {
+  title: "Abyss - Private Money Mixer on EVM Chains.",
+  description: "Private Money Mixer on EVM Chains.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+
+  return (
+    <html lang="en" className="bg-body text-white tracking-wider font-klartext">
+      <head>
+        <link rel="icon" href="/assets/abyss.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+
+      <body className="p-4 md:mx-24 lg:mx-64">
+        <GlobalProvider>
+          {children}
+        </GlobalProvider>
+      </body>
+    </html>
+  );
+}

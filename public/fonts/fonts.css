@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "KlartextMono";
+    src: url("./styles/KlartextMono.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoBold";
+    src: url("./styles/KlartextMonoBold.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoBoldItalic";
+    src: url("./styles/KlartextMonoBoldItalic.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoLight";
+    src: url("./styles/KlartextMonoLight.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoLightItalic";
+    src: url("./styles/KlartextMonoLightItalic.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoMedium";
+    src: url("./styles/KlartextMonoMedium.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoMediumItalic";
+    src: url("./styles/KlartextMonoMediumItalic.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoRegularItalic";
+    src: url("./styles/KlartextMonoRegularItalic.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoThin";
+    src: url("./styles/KlartextMonoThin.ttf");
+}
+
+@font-face {
+    font-family: "KlartextMonoThinItalic";
+    src: url("./styles/KlartextMonoThinItalic.ttf");
+}

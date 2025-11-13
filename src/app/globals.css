@@ -1,0 +1,110 @@
+@import url("../../public/fonts/fonts.css");
+@import "tailwindcss";
+
+@theme inline {
+  --color-body: #02040F;
+  --color-btn-success: #129158;
+  --color-btn-warning: #B28D2E;
+  --color-btn-error: #B42318;
+  --color-btn-success-hover: #0B5B37;
+  --color-btn-warning-hover: #826621;
+  --color-btn-error-hover: #7E1811;
+  --color-modal-bg: #02121D;
+  --color-modal-bg-hover: #02121D30;
+  --color-modal-border: #A9AF2C;
+  --color-modal-btn: #A9AF2C;
+  --color-modal-btn-hover: #7E8321;
+
+  --font-klartext: "KlartextMono";
+  --font-klartext-italic: "KlartextMonoRegularItalic";
+  --font-klartext-bold: "KlartextMonoBold";
+  --font-klartext-bold-italic: "KlartextMonoBoldItalic";
+  --font-klartext-light: "KlartextMonoLight";
+  --font-klartext-light-italic: "KlartextMonoLightItalic";
+  --font-klartext-medium: "KlartextMonoMedium";
+  --font-klartext-medium-italic: "KlartextMonoMediumItalic";
+  --font-klartext-thin: "KlartextMonoThin";
+  --font-klartext-thin-italic: "KlartextMonoThinItalic";
+}
+
+* {
+  text-transform: uppercase;
+  outline: none;
+}
+
+.spinner {
+  animation: spin 500ms ease 0s infinite;
+}
+
+.pulser {
+  animation: pulse 500ms ease 0s infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(0.5)
+  }
+}
+
+/* Entire scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+}
+
+/* Track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #02040F;
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #02040F;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #02040F;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Chrome, Edge, Opera */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-password-toggle-button {
+  display: none !important;
+}
+
+/* For Safari (macOS/iOS) */
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
