@@ -18,11 +18,11 @@ export function WalletConnectionOptions() {
     const [hasRabby, setHasRabby] = useState<boolean>(false)
     const [
         baseConnector,
-        geminiConnector,
+        // geminiConnector,
         injectedConnector,
         metamaskConnector,
         portoConnector,
-        safeConnector,
+        // safeConnector,
         walletConnectConnector
     ] = config.connectors
 
@@ -53,35 +53,38 @@ export function WalletConnectionOptions() {
             <div className="flex justify-around items-center mt-4 mb-4">
                 {
                     !hasRabby ?
-                        <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(metamaskConnector)}>
-                            <Image src={metamaskIcon} alt="Metamask" className="w-full h-full" />
+                        <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Metamask Wallet" onClick={() => connectToWallet(metamaskConnector)}>
+                            <Image src={metamaskIcon} alt="Metamask Wallet" className="w-full h-full" />
                         </div>
-                        : <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(injectedConnector)}>
-                            <Image src={rabbyIcon} alt="Metamask" className="w-full h-full" />
+                        : <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Rabby Wallet" onClick={() => connectToWallet(injectedConnector)}>
+                            <Image src={rabbyIcon} alt="Rabby Wallet" className="w-full h-full" />
                         </div>
                 }
-                <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(portoConnector)}>
-                    <Image src={portoIcon} alt="Metamask" className="w-full h-full" />
+                <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Porto Wallet" onClick={() => connectToWallet(portoConnector)}>
+                    <Image src={portoIcon} alt="Porto Wallet" className="w-full h-full" />
                 </div>
             </div>
 
             <div className="flex justify-around items-center mt-4 mb-4">
-                <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(baseConnector)}>
-                    <Image src={baseIcon} alt="Metamask" className="w-full h-full" />
+                <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Base Wallet" onClick={() => connectToWallet(baseConnector)}>
+                    <Image src={baseIcon} alt="Base Wallet" className="w-full h-full" />
                 </div>
-                <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(safeConnector)}>
-                    <Image src={safeIcon} alt="Metamask" className="w-full h-full" />
+                {/* <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Safe Wallet" onClick={() => connectToWallet(safeConnector)}>
+                    <Image src={safeIcon} alt="Safe Wallet" className="w-full h-full" />
+                </div> */}
+                <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Wallet Connect" onClick={() => connectToWallet(walletConnectConnector)}>
+                    <Image src={walletConnectIcon} alt="Wallet Connect" className="w-full h-full" />
                 </div>
             </div>
 
-            <div className="flex justify-around items-center mt-4 mb-4">
-                <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(walletConnectConnector)}>
-                    <Image src={walletConnectIcon} alt="Metamask" className="w-full h-full" />
+            {/* <div className="flex justify-around items-center mt-4 mb-4">
+                <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Wallet Connect" onClick={() => connectToWallet(walletConnectConnector)}>
+                    <Image src={walletConnectIcon} alt="Wallet Connect" className="w-full h-full" />
                 </div>
-                <div className="p-2  w-[30%] aspect-square hover:opacity-80 cursor-pointer" onClick={() => connectToWallet(geminiConnector)}>
-                    <Image src={geminiIcon} alt="Metamask" className="w-full h-full" />
+                <div className="p-2 w-[20%] aspect-square hover:opacity-80 cursor-pointer" title="Gemini" onClick={() => connectToWallet(geminiConnector)}>
+                    <Image src={geminiIcon} alt="Gemini" className="w-full h-full" />
                 </div>
-            </div>
+            </div> */}
         </div>
     </ModalBg>
 }

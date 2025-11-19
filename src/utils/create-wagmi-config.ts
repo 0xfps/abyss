@@ -14,14 +14,14 @@ export default function createWagmiConfig(projectId: string | undefined, rpc: st
                 appName: "Abyss",
                 appLogoUrl: "https://i.ibb.co/xSQyNcWz/abyss.png" //https://ibb.co/d0ySR3Fk
             }),
-            gemini(),
+            // gemini(),
             injected(),
             metaMask(),
             porto(),
-            safe({
-                allowedDomains: [/^app\.safe\.global$/],
-                debug: false,
-            }),
+            // safe({
+            //     allowedDomains: [/^app\.safe\.global$/],
+            //     debug: false,
+            // }),
             walletConnect({
                 projectId
             })
