@@ -71,7 +71,7 @@ export function Redeem() {
     useEffect(function () {
         if (price) {
             if (amountToSend)
-                setAmountToReceive(parseFloat((parseFloat(amountToSend) / price).toFixed(6)))
+                setAmountToReceive(parseFloat((parseFloat(amountToSend) / price).toFixed(4)))
             else setAmountToReceive(0)
         }
     }, [amountToSend, price])
