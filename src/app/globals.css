@@ -27,6 +27,10 @@
   --font-klartext-thin-italic: "KlartextMonoThinItalic";
 }
 
+html, body {
+  background-color: #02040F;
+}
+
 * {
   text-transform: uppercase;
   outline: none;
