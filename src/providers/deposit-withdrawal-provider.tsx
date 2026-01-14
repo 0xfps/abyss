@@ -5,6 +5,7 @@ import { createContext, useState } from "react";
 
 export const DepositWithdrawContext = createContext<DepositWithdrawType>({
     includeLeaf: true,
+    splitDeposit: true,
     secretKey: "",
     withdrawalKey: "",
     depositKeys: [],
@@ -18,11 +19,13 @@ export const DepositWithdrawContext = createContext<DepositWithdrawType>({
     setDepositKeys: () => { },
     setWithdrawalKeys: () => { },
     setIncludeLeaf: () => { },
+    setSplitDeposit: () => { },
     autogenerateKey: () => { }
 })
 
 export function DepositWithdrawProvider({ children }: ChildType) {
     const [includeLeaf, setIncludeLeaf] = useState<boolean>(true)
+    const [splitDeposit, setSplitDeposit] = useState<boolean>(true)
     const [hidden, setHidden] = useState<boolean>(true)
     const [secretKey, setSecretKey] = useState<string>("")
     const [withdrawalKey, setWithdrawalKey] = useState<string>("")
@@ -42,6 +45,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
 
     const values = {
         includeLeaf,
+        splitDeposit,
         secretKey,
         withdrawalKey,
         depositKeys,
@@ -51,6 +55,7 @@ export function DepositWithdrawProvider({ children }: ChildType) {
         pullTrigger,
         setHidden,
         setIncludeLeaf,
+        setSplitDeposit,
         setSecretKey,
         setWithdrawalKey,
         setDepositKeys,

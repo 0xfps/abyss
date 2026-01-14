@@ -27,7 +27,7 @@ import { toaster } from "./toaster";
 import { BiSolidErrorCircle } from "react-icons/bi";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { FaCloudDownloadAlt } from "react-icons/fa";
-import { formatToFourDecimals } from "@/utils/to-four-decimals";
+import { GiSplitArrows } from "react-icons/gi";
 
 export function DepositPreview() {
     const { address, chainId } = useAccount()
@@ -40,6 +40,7 @@ export function DepositPreview() {
 
     const {
         secretKey,
+        splitDeposit,
         pullTrigger,
         withdrawalKey,
         depositKeys,
@@ -167,7 +168,7 @@ export function DepositPreview() {
                         title: "Deposit successful",
                         description: `
                         You successfully deposited ${formatNumber(parseFloat(amountToSend))} $V.
-                        Your prompt to download your withdrawals keys would be sent shortly.
+                        Your prompt to download your withdrawal keys would be sent shortly.
                         If not, click on the button below to download them.
                         `,
                         icon: <FaCircleCheck />,
@@ -293,6 +294,13 @@ export function DepositPreview() {
                     <span className="flex items-center">
                         <span><FaLeaf /></span>
                         <span className="ml-2 text-btn-success">Yes</span>
+                    </span>
+                </div>
+                <div className="w-full py-1 flex justify-between items-center text-xs">
+                    <span>Split Deposit</span>
+                    <span className="flex items-center">
+                        <span><GiSplitArrows /></span>
+                        <span className={`ml-2 ${splitDeposit ? "text-btn-success" : "text-white"}`}>{splitDeposit ? "Yes" : "No"}</span>
                     </span>
                 </div>
                 <div className="w-full py-1 flex justify-between items-center text-xs">

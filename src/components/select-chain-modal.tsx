@@ -45,10 +45,8 @@ export function SwitchChainModal() {
     function selectChain(id: number) {
         if (calledOnSwitchPollChain) {
             setPollChainId(id)
-        }
-        else {
-            const firstTokenAddress = Object.keys(abyssConfig.testnetConfig.chainsConfig[id].tokens)[0]
-            const firstToken = abyssConfig.testnetConfig.chainsConfig[id].tokens[firstTokenAddress]
+        } else {
+            const firstToken = abyssConfig.testnetConfig.chainsConfig[id].tokens[0]
             setTokenToSend(firstToken)
         }
 
