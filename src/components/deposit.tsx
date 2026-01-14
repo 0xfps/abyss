@@ -1,7 +1,7 @@
 "use client"
 
 import { loadImage } from "@/utils/load-image";
-import { FaGasPump } from "react-icons/fa6";
+import { FaGasPump, FaToggleOff } from "react-icons/fa6";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { getChainImage } from "@/utils/get-chain-image";
@@ -33,8 +33,10 @@ export function Deposit() {
 
     const {
         secretKey,
+        splitDeposit,
         hidden,
         setHidden,
+        setSplitDeposit,
         setSecretKey,
         setWithdrawalKey,
         setDepositKeys,
@@ -86,9 +88,19 @@ export function Deposit() {
         if (isDisabled()) return
         const amountToDeposit = BigInt(parseFloat(amountToSend) * (10 ** DECIMALS))
 
-        const { withdrawalKey } = generateKeys(amountToDeposit, secretKey)
+        const { withdrawalKey, depositKey } = generateKeys(amountToDeposit, secretKey)
         setWithdrawalKey(withdrawalKey)
-        const { withdrawalKeys, depositKeys } = breakDownKey(withdrawalKey, secretKey)
+
+        let withdrawalKeys: string[], depositKeys: string[]
+        
+        if (splitDeposit) {
+            let keys = breakDownKey(withdrawalKey, secretKey)
+            withdrawalKeys = keys.withdrawalKeys
+            depositKeys = keys.depositKeys
+        } else {
+            depositKeys = [depositKey]
+            withdrawalKeys = [withdrawalKey]
+        }
 
         setDepositKeys(depositKeys)
         setWithdrawalKeys(withdrawalKeys)
@@ -100,11 +112,15 @@ export function Deposit() {
         <div className="p-2 bg-body">
             <div className="w-full flex justify-between items-center text-sm">
                 <span className="flex items-center">
-                    Include leaf
+                    Split deposit
                 </span>
 
-                <span className="hover:opacity-80 cursor-pointer text-2xl">
-                    <FaToggleOn className="text-btn-success" />
+                <span className="hover:opacity-80 cursor-pointer text-2xl" onClick={() => setSplitDeposit(!splitDeposit)}>
+                    {
+                        splitDeposit ?
+                            <FaToggleOn className="text-btn-success" />
+                            : <FaToggleOff className="text-white" />
+                    }
                 </span>
             </div>
         </div>

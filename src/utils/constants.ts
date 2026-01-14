@@ -14,9 +14,8 @@ export const BLOCK_CRAWL_INTERVAL: Record<number, number> = {
 export const SVG_IMG_PREPEND = "data:image/svg+xml;utf8,"
 export const DEFAULT_CHAIN_ID = arbitrumSepolia.id
 
-const firstToken = Object.keys(abyssConfig.testnetConfig.chainsConfig[DEFAULT_CHAIN_ID].tokens)[0]
 export const DEFAULT_TOKEN = {
-    ...abyssConfig.testnetConfig.chainsConfig[DEFAULT_CHAIN_ID].tokens[firstToken]
+    ...abyssConfig.testnetConfig.chainsConfig[DEFAULT_CHAIN_ID].tokens[0]
 }
 export const DEFAULT_NETWORK_FEE = 2.30
 export const V_IMG = abyssPng

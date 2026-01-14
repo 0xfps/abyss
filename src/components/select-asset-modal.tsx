@@ -29,7 +29,7 @@ export function SelectAssetModal() {
     }, [])
 
     useEffect(function () {
-        const assets = Object.values(abyssConfig.testnetConfig.chainsConfig[chainId].tokens)
+        const assets = abyssConfig.testnetConfig.chainsConfig[chainId].tokens
         setAssetStore(assets)
         setAssets(assets)
     }, [chainId])

@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react"
 
 export type DepositWithdrawType = {
     includeLeaf: boolean
+    splitDeposit: boolean
     secretKey: string
     withdrawalKey: string,
     depositKeys: string[],
@@ -15,5 +16,6 @@ export type DepositWithdrawType = {
     setDepositKeys: Dispatch<SetStateAction<string[]>>
     setWithdrawalKeys: Dispatch<SetStateAction<string[]>>
     setIncludeLeaf: Dispatch<SetStateAction<boolean>>
+    setSplitDeposit: Dispatch<SetStateAction<boolean>>
     autogenerateKey: () => void
 }
