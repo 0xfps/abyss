@@ -26,19 +26,19 @@ export function HowToUse() {
 
             <br /><br />
 
-            <span className="font-klartext-medium">1. Swap your Testnet asset for $V.</span><br />
-            Exchange your Testnet tokens for $V, the private token used within the mixer.
+            <span className="font-klartext-medium">1. Swap your Testnet asset for $ABYSS.</span><br />
+            Exchange your Testnet tokens for $ABYSS, the private token used within the mixer.
 
 
             <br /><br />
 
-            <span className="font-klartext-medium">2. Deposit $V with a secret key.</span><br />
+            <span className="font-klartext-medium">2. Deposit $ABYSS with a secret key.</span><br />
             Your deposit generates unique withdrawal keys. Download and store them securely; they’re required to withdraw your funds later.
 
 
             <br /><br />
 
-            <span className="font-klartext-medium">3. Withdraw $V anytime.</span><br />
+            <span className="font-klartext-medium">3. Withdraw $ABYSS anytime.</span><br />
             Use your secret and any of your withdrawal keys to retrieve your funds privately, with no link to your original deposit.
         </p>
         <div className="w-full flex items-center justify-center mt-8 mb-4 font-klartext-light">

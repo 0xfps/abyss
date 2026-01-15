@@ -130,7 +130,7 @@ export function DepositPreview() {
                 if (waiting) {
                     toaster({
                         title: "Approval successful",
-                        description: `You successfully approved ${formatNumber(parseFloat(amountToSend))} $V.`,
+                        description: `You successfully approved ${formatNumber(parseFloat(amountToSend))} $ABYSS.`,
                         icon: <BiSolidErrorCircle />
                     })
 
@@ -167,7 +167,7 @@ export function DepositPreview() {
                     toaster({
                         title: "Deposit successful",
                         description: `
-                        You successfully deposited ${formatNumber(parseFloat(amountToSend))} $V.
+                        You successfully deposited ${formatNumber(parseFloat(amountToSend))} $ABYSS.
                         Your prompt to download your withdrawal keys would be sent shortly.
                         If not, click on the button below to download them.
                         `,

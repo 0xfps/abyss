@@ -234,7 +234,7 @@ export function WithdrawPreview() {
                 if (waiting) {
                     toaster({
                         title: "Withdrawal successful",
-                        description: `You successfully withdrew ${formatNumber(parseFloat(amountToSend))} $V to ${truncateAddress(destination, 6)}.`,
+                        description: `You successfully withdrew ${formatNumber(parseFloat(amountToSend))} $ABYSS to ${truncateAddress(destination, 6)}.`,
                         icon: <FaCircleCheck />
                     })
 
