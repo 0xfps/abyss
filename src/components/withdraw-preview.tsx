@@ -100,7 +100,7 @@ export function WithdrawPreview() {
         } catch {
             toaster({
                 title: "Merkle proof failed",
-                description: "Your computed leaf is not in the tree. Confirm your secret key or withdrawal key for correctness.",
+                description: "Your computed leaf is not in the tree. Confirm that your secret key, withdrawal key and withdrawal chain are all correct.",
                 icon: <BiSolidErrorCircle />
             })
 
