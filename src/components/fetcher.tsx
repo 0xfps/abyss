@@ -15,6 +15,11 @@ import { useModalStore } from "@/store/modal-store";
 import { LeavesContext } from "@/providers/leaves-provider";
 import { DepositWithdrawContext } from "@/providers/deposit-withdrawal-provider";
 import { ChainIdContext } from "@/providers/chain-id-provider";
+import { gql, request } from "graphql-request"
+
+interface GraphLeaves {
+    leaf: string
+}
 
 export function Fetcher() {
     const config = useConfig()
@@ -27,8 +32,6 @@ export function Fetcher() {
     const { chainId } = useContext(ChainIdContext)
     const { trigger } = useContext(DepositWithdrawContext)
     const [t, setT] = useState<NodeJS.Timeout | null>(null)
-
-    const ABI: InterfaceAbi = abyssConfig.abyssAbi as InterfaceAbi
 
     useEffect(function () {
         setLeaves([])
@@ -73,43 +76,36 @@ export function Fetcher() {
     }, [])
 
     async function getLeaves() {
-        const provider = getProvider()
-        const abyssData = abyssConfig.testnetConfig.chainsConfig[pollChainId]
+        const indexerURL = abyssConfig.testnetConfig.chainsConfig[pollChainId].indexerURL
 
-        if (!abyssData) return
+        if (!indexerURL) return
 
-        const { abyssAddress, blockNumber } = abyssData
-        const main = new ethers.Contract(abyssAddress as string, ABI, provider)
-        const currentBlockNumber = await provider.getBlockNumber()
-
-        let startBlockNumber = Number(blockNumber)
-
-        while (startBlockNumber < currentBlockNumber) {
-            const INTERVAL = BLOCK_CRAWL_INTERVAL[pollChainId] || DEFAULT_BLOCK_CRAWL_INTERVAL
-            const stopBlockNumber = startBlockNumber + INTERVAL
-            const filters = await main.queryFilter(
-                DEPOSIT_EVENT, startBlockNumber, stopBlockNumber
-            )
-
-            if (filters.length > 0) {
-                const leaves: string[] = []
-
-                filters.forEach(function (filter: Log | EventLog) {
-                    leaves.push(filter.topics[1])
-                })
-
-                pushLeaves(leaves)
-                setNumberFetched(prev => prev + leaves.length)
+        const query = gql`{
+            depositAddeds (
+                orderBy: blockNumber,
+                orderDirection: asc
+            ) {
+                leaf
             }
+        }`
 
-            startBlockNumber = stopBlockNumber + 1
+        const headers = { Authorization: `Bearer ${process.env.GRAPH_API_KEY}` }
+        const data = await request(indexerURL, query, {}, headers)
+
+        if (data && data.depositAddeds) {
+            extractLeaves(data.depositAddeds)
         }
     }
 
-    function getProvider(): JsonRpcProvider {
-        const chain = getChainFromId(pollChainId, config)
-        const rpc = chain.rpcUrls.default.http[0]
-        return new ethers.JsonRpcProvider(rpc);
+    function extractLeaves(fetchedLeaves: GraphLeaves[]) {
+        const leaves: string[] = []
+
+        for (const { leaf } of fetchedLeaves) {
+            setNumberFetched(prev => prev + 1)
+            leaves.push(leaf)
+        }
+
+        pushLeaves(leaves)
     }
 
     useEffect(function () {

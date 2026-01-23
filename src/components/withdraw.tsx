@@ -305,7 +305,7 @@ export function Withdraw() {
                 </span>
             </div>
             <div className="w-full py-1 flex justify-between items-center text-xs">
-                <span>Liquidity [$V]</span>
+                <span>Liquidity [$ABYSS]</span>
                 <span className="flex items-center">
                     <span><RiMoneyDollarCircleFill className="text-xl" /></span>
                     <span className="ml-2">{

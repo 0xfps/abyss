@@ -130,7 +130,7 @@ export function RedeemPreview() {
                 if (waiting) {
                     toaster({
                         title: "Approval successful",
-                        description: `You successfully approved ${formatNumber(parseFloat(amountToSend))} $V.`,
+                        description: `You successfully approved ${formatNumber(parseFloat(amountToSend))} $ABYSS.`,
                         icon: <BiSolidErrorCircle />
                     })
 
@@ -182,7 +182,7 @@ export function RedeemPreview() {
                 if (waiting) {
                     toaster({
                         title: "Swap successful",
-                        description: `You swapped ${formatNumber(parseFloat(amountToSend))} $V for ${formatNumber(amountToReceive)} ${tokenToReceive.symbol}.`,
+                        description: `You swapped ${formatNumber(parseFloat(amountToSend))} $ABYSS for ${formatNumber(amountToReceive)} ${tokenToReceive.symbol}.`,
                         icon: <FaCircleCheck />
                     })
 

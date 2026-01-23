@@ -193,7 +193,7 @@ export function SwapPreview() {
                 if (waiting) {
                     toaster({
                         title: "Swap successful",
-                        description: `You swapped ${formatNumber(parseFloat(amountToSend))} ${tokenToSend.symbol} for ${formatNumber(amountToReceive)} $V.`,
+                        description: `You swapped ${formatNumber(parseFloat(amountToSend))} ${tokenToSend.symbol} for ${formatNumber(amountToReceive)} $ABYSS.`,
                         icon: <FaCircleCheck />
                     })
 

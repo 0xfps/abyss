@@ -100,7 +100,7 @@ export function WithdrawPreview() {
         } catch {
             toaster({
                 title: "Merkle proof failed",
-                description: "Your computed leaf is not in the tree. Confirm your secret key or withdrawal key for correctness.",
+                description: "Your computed leaf is not in the tree. Confirm that your secret key, withdrawal key and withdrawal chain are all correct.",
                 icon: <BiSolidErrorCircle />
             })
 
@@ -234,7 +234,7 @@ export function WithdrawPreview() {
                 if (waiting) {
                     toaster({
                         title: "Withdrawal successful",
-                        description: `You successfully withdrew ${formatNumber(parseFloat(amountToSend))} $V to ${truncateAddress(destination, 6)}.`,
+                        description: `You successfully withdrew ${formatNumber(parseFloat(amountToSend))} $ABYSS to ${truncateAddress(destination, 6)}.`,
                         icon: <FaCircleCheck />
                     })
 
